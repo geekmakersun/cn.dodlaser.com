@@ -8,6 +8,6 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 return array (
     1 => array (
-        'site' => '/var/www/www.dodlaser.com/public/',
+        'site' => '/var/www/cn.dodlaser.com/public/',
     ),
 );

@@ -1,0 +1,3 @@
+
+REPLACE INTO `dr_urlrule` (`id`, `type`, `name`, `value`) VALUES ('5', '2', '共享模块搜索规则', '{\"search\":\"{modname}\\/search.html\",\"search_page\":\"{modname}\\/search\\/{param}.html\",\"catjoin\":\"\\/\"}');<XUNRUICMS_DB_LINE>
+REPLACE INTO `dr_urlrule` (`id`, `type`, `name`, `value`) VALUES ('6', '3', '共享栏目和内容页规则', '{\"list\":\"{pdirname}/\",\"list_page\":\"{pdirname}/list-{page}.html\",\"show\":\"{pdirname}/show-{id}.html\",\"show_page\":\"{pdirname}/show-{id}-{page}.html\",\"catjoin\":\"/\"}');<XUNRUICMS_DB_LINE>

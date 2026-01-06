@@ -1,0 +1,3 @@
+
+REPLACE INTO `dr_linkage_data_1` (`id`, `site`, `pid`, `pids`, `name`, `cname`, `child`, `hidden`, `childids`, `displayorder`) VALUES ('1', '1', '0', '0', '北京', 'bj', '0', '0', '1', '0');<XUNRUICMS_DB_LINE>
+REPLACE INTO `dr_linkage_data_1` (`id`, `site`, `pid`, `pids`, `name`, `cname`, `child`, `hidden`, `childids`, `displayorder`) VALUES ('2', '1', '0', '0', '成都', 'cd', '0', '0', '2', '0');<XUNRUICMS_DB_LINE>

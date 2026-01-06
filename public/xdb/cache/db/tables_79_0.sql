@@ -1,0 +1,2 @@
+
+REPLACE INTO `dr_member_group` (`id`, `name`, `price`, `unit`, `days`, `apply`, `register`, `setting`, `displayorder`) VALUES ('1', '注册用户', '0.00', '0', '0', '1', '1', '{\"level\":{\"auto\":\"0\",\"unit\":\"0\",\"price\":\"0\"},\"verify\":\"0\"}', '0');<XUNRUICMS_DB_LINE>

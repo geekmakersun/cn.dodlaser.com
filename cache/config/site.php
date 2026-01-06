@@ -8,8 +8,8 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 return array (
     1 => array (
-        'SITE_NAME' => '戴奥德(无锡)光电技术有限公司',
-        'SITE_DOMAIN' => 'www.dodlaser.com',
+        'SITE_NAME' => '戴奥德中文站',
+        'SITE_DOMAIN' => 'cn.dodlaser.com',
         'SITE_LOGO' => '/static/assets/logo-web.png',
         'SITE_MOBILE' => '',
         'SITE_MOBILE_DIR' => 'mobile',

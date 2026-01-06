@@ -8,6 +8,6 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 return [
 
-	'0'                             => 'www.dodlaser.com',
+	'0'                             => 'cn.dodlaser.com',
 
 ];

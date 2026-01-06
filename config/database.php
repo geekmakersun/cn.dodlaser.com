@@ -6,8 +6,8 @@
 
 $db['default']	= [
     'hostname'	=> '127.0.0.1',
-    'username'	=> 'www_dodlaser_com',
-    'password'	=> '6bW5*esx-BlXIN1g',
-    'database'	=> 'www_dodlaser_com',
+    'username'	=> 'cn_dodlaser_com',
+    'password'	=> '/WqCZ4[4aqCmIjsa',
+    'database'	=> 'cn_dodlaser_com',
     'DBPrefix'	=> 'dr_',
 ];

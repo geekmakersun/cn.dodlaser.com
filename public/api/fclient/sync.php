@@ -5,11 +5,11 @@
  */
 
 return [
-    'id' => '28',
-    'sn' => 'PHPCMF4AB79AA16FBDB',
-    'name' => '戴奥德(无锡)光电技术有限公司',
-    'domain' => 'https://www.dodlaser.com/',
-    'endtime' => '1820160000',
+    'id' => '80',
+    'sn' => 'PHPCMFE987BA05A9F0B',
+    'name' => '戴奥德中文站',
+    'domain' => 'https://cn.dodlaser.com',
+    'endtime' => '1853942400',
     'status' => '2',
     'close_url' => '',
     'pay_url' => '',
