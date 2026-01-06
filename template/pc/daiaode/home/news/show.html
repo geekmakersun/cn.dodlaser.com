@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>{$meta_title}</title>
+    <meta content="{$meta_keywords}" name="keywords" />
+    <meta content="{$meta_description}" name="description" />
+    {template "common/common_top.html"}
+    <link href="{HOME_THEME_PATH}css/show.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="show uk-background-muted">
+      <!-- S 通用顶部 -->
+      <div class="uk-position-relative">
+        <!-- S 轮播图-->
+        {template "common/web-slideshow-2.html"}
+        <!-- E 轮播图 -->
+        <!-- S 固定导航条 -->
+        {template "common/common_nav.html"}
+        <!-- E 固定导航条 -->
+      </div>
+      <!-- E 通用顶部 -->
+      <!-- S 内容区域 -->
+      <section class="uk-container uk-container-xlarge uk-section-small">
+        <article
+          class="uk-article uk-background-default uk-article uk-padding uk-border-rounded"
+        >
+          <h1 class="uk-text-lead uk-text-center">{$title}</h1>
+          <p class="uk-article-meta uk-text-center">
+            <span
+              uk-icon="icon: clock; ratio: .7"
+              class="uk-margin-left"
+            ></span>
+            <!-- {$updatetime} -->
+            <!-- <span uk-icon="icon: heart; ratio: .7" class="uk-margin-left"></span> {dr_show_hits($id)}次 -->
+          </p>
+          <p class="uk-text-meta">{$description}</p>
+          <hr />
+          <div class="uk-margin uk-text-default">
+            {dr_content_link($tags, $content, 1)}
+          </div>
+
+          <!-- {if $tags}
+					<hr>
+					<div class="uk-margin">
+						<span>label：</span>
+						{loop $tags $name $url}
+						<a class="uk-button uk-button-default uk-border-pill"
+							 href="{$url}"
+							 target="_blank"
+							 title="{$name}">{$name}</a>
+						{/loop}
+					</div>
+					<hr>
+					{/if} -->
+          <!-- S 前后翻页 -->
+          <p>
+            Previous：<a
+              href="{if $prev_page}{$prev_page.url}{else}javascript:void(0);{/if}"
+              >{if $prev_page}{$prev_page.title}{else}No More{/if}</a
+            >
+          </p>
+          <p>
+            Next：<a
+              href="{if $next_page}{$next_page.url}{else}javascript:void(0);{/if}"
+              >{if $next_page}{$next_page.title}{else}No More{/if}</a
+            >
+          </p>
+          <!-- E 前后翻页 -->
+        </article>
+      </section>
+      <!-- E 内容区域 -->
+      <!-- S 通用尾部 -->
+      {template "common/common_footer.html"}
+      <!-- E 通用尾部 -->
+    </div>
+    {template "common/common_bottom.html"}
+    <script src="{HOME_THEME_PATH}js/show.js"></script>
+  </body>
+</html>

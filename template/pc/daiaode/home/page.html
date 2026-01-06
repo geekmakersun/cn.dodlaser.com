@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta
+			content="text/html; charset=utf-8"
+			http-equiv="Content-Type" />
+		<title>{$meta_title}</title>
+		<meta
+			content="{$meta_keywords}"
+			name="keywords" />
+		<meta
+			content="{$meta_description}"
+			name="description" />
+		<!-- S 头部通用样式 -->
+		{template "common/common_top.html"}
+		<link
+			rel="stylesheet"
+			href="{HOME_THEME_PATH}css/common_page.css" />
+		<!-- E 头部通用样式 -->
+	</head>
+	<body class="page">
+		<!-- S common_header -->
+		{template "common/common_header.html"}
+		<!-- E common_header -->
+		<!-- S 轮播图 -->
+		<section
+			class="uk-section uk-padding-remove uk-background-top-center"
+			style="background-image: url({HOME_THEME_PATH}web/img/page_banner.jpg?v=2)">
+			<div
+				class="uk-container uk-section-small uk-text-bolder uk-padding-remove uk-overlay-default"
+				style="margin-top: 247px">
+				<ul class="uk-breadcrumb uk-padding-small">
+					<li class="uk-link-muted">
+						<span uk-icon="icon: home;"></span
+						><a
+							href="{SITE_URL}"
+							class="uk-link-text"
+							>Home</a
+						>
+					</li>
+					{if !IS_SHARE}
+					<li>
+						<a
+							href="{MODULE_URL}"
+							class="uk-link-text"
+							>{MODULE_NAME}</a
+						>
+					</li>
+					{/if} {dr_catpos($catid, '', true, '
+					<li>
+						<a
+							href="[url]"
+							class="uk-link-text"
+							>[name]</a
+						>
+					</li>
+					')}
+				</ul>
+			</div>
+		</section>
+		<!-- E 轮播图 -->
+		<!-- S 内容区域 -->
+		<section class="uk-container uk-section-small">
+			<div class="page_con uk-text">
+				<div class="uk-margin uk-text">{dr_content_link($tags, $content, 1)}</div>
+			</div>
+		</section>
+		<!-- E 内容区域 -->
+		<!-- S main_footer -->
+		{template "common/common_footer.html"}
+		<!-- E main_footer -->
+	</body>
+</html>

@@ -1,0 +1,11 @@
+cache/*
+!cache/
+cache/*/*
+!cache/*/
+!cache/*/.htaccess
+public/uploadfile/thumb/*
+!public/uploadfile/thumb/.htaccess
+public/index.html
+cache/config/run_auto_cache_time.php
+install.lock
+public/admin*.php

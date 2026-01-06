@@ -1,0 +1,37 @@
+{template "header.html"}
+
+<div class="right-card-box">
+    <form class="form-horizontal" role="form" id="myform">
+        {dr_form_hidden()}
+        <div class="table-scrollable">
+            <table class="table table-noborder table-striped table-bordered table-hover table-checkable dataTable">
+                <thead>
+                <tr class="heading">
+                    <th width="80" style="text-align:center"> {dr_lang('搜索')} </th>
+                    <th width="200"> {dr_lang('名称')} / {dr_lang('目录')}</th>
+                    <th> {dr_lang('操作')} </th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $module $t}
+                {php $t.disabled = !$t['setting']['search']['use'];}
+                <tr class="odd gradeX">
+                    <td style="text-align:center">
+                        <a href="javascript:;" onclick="dr_ajax_open_close(this, '{dr_url('module/module_search/hidden_edit', ['dir'=>$t.dirname])}', 1);" class="badge badge-{if $t.disabled}no{else}yes{/if}"><i class="fa fa-{if $t.disabled}times{else}check{/if}"></i></a>
+                    </td>
+                    <td><a href="{WEB_DIR}index.php?s={$t.dirname}&c=search" target="_blank">{$t.name} / {$t.dirname}</a></td>
+                    <td>
+                        <label><a href="javascript:top.dr_iframe('{$t.name}','{dr_url('module/module_search/edit', ['dir'=>$t.dirname])}', '80%', '90%', 'noclose');" class="btn btn-xs blue"> <i class="fa fa-cog"></i> {dr_lang('搜索设置')} </a></label>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+        </div>
+
+
+    </form>
+</div>
+
+{template "footer.html"}

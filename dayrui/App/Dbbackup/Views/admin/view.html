@@ -1,0 +1,34 @@
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-database"></i>
+            <span class="caption-subject">备份详情：{$record.tables}</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-scrollable">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th width="50">序号</th>
+                        <th>表名</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {if $list}
+                {loop $list $i $t}
+                <tr>
+                    <td>{$i+1}</td>
+                    <td>{$t}</td>
+                </tr>
+                {/loop}
+                {else}
+                <tr>
+                    <td colspan="2" class="fc-text-center">未找到备份表信息</td>
+                </tr>
+                {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> 

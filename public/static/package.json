@@ -1,0 +1,8 @@
+{
+	"dependencies": {
+		"cn-fontsource-source-han-sans-sc-vf": "^1.0.10",
+		"cn-fontsource-source-han-serif-sc-vf-regular": "^1.0.1",
+		"hls.js": "^1.5.20",
+		"jquery": "^3.7.1"
+	}
+}

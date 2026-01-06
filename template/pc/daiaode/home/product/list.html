@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta
+			content="text/html; charset=utf-8"
+			http-equiv="Content-Type" />
+		<title>{$meta_title}</title>
+		<meta
+			content="{$meta_keywords}"
+			name="keywords" />
+		<meta
+			content="{$meta_description}"
+			name="description" />
+		{template "common/common_top.html"}
+		<link
+			href="{HOME_THEME_PATH}css/list_picture.css"
+			rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="list_picture uk-background-muted">
+			<!-- S 通用顶部 -->
+			<div class="uk-position-relative">
+				<!-- S 轮播图-->
+				{template "common/web-slideshow-2.html"}
+				<!-- E 轮播图 -->
+				<!-- S 固定导航条 -->
+				{template "common/common_nav.html"}
+				<!-- E 固定导航条 -->
+			</div>
+			<!-- E 通用顶部 -->
+			<!-- S 内容区域 -->
+			<section class="uk-container uk-container-xlarge uk-section-small">
+				<article class="uk-article uk-background-default uk-article uk-padding uk-border-rounded">
+					<nav
+						class="uk-padding-remove-top"
+						uk-navbar="delay-hide: 100;align:center;">
+						<ul class="uk-navbar-nav uk-flex-center uk-flex-wrap uk-width-1-1">
+							{category module=share pid=2 order=displayorder_asc}
+							<li class="uk-padding-small">
+								<a
+									class="uk-button uk-button-default"
+									href="{$t.url}"
+									title="{$t.name}"
+									>{$t.name}</a
+								>
+								<div class="uk-navbar-dropdown">
+									<ul class="uk-nav uk-navbar-dropdown-nav">
+										{category module=share pid=$t.id return=t2}
+										<li>
+											<a
+												href="{$t2.url}"
+												title="{$t2.name}"
+												>{$t2.name}</a
+											>
+										</li>
+										{/category}
+									</ul>
+								</div>
+							</li>
+							{/category}
+						</ul>
+					</nav>
+					<div
+						class="uk-child-width-1-2 uk-child-width-1-4@s uk-grid uk-grid-small"
+						uk-grid="masonry: true"
+						uk-scrollspy="cls: uk-animation-slide-bottom; target: .uk-card; delay: 100;">
+						<!-- prettier-ignore -->
+						{module module=MOD_DIR catid=$catid order=displayorder_asc pagesize=12 return=c1}
+						<!-- prettier-ignore-attribute -->
+						<!-- S 图片列表 卡片 -->
+						<div>
+							<a
+								class="uk-card uk-card-default uk-card-hover uk-card-body uk-inline-clip uk-transition-toggle uk-animation-toggle"
+								href="{$c1.url}"
+								tabindex="0">
+								<img
+									class="uk-transition-scale-up uk-transition-opaque uk-width-1-1"
+									src="{dr_thumb($c1.thumb,400,400,0,'width')}"
+									width="400"
+									height="400"
+									title="{$c1.title}"
+									alt="{$c1.title}" />
+								<p class="uk-margin-small-top uk-text-center uk-text-truncate">{$c1.title}</p>
+							</a>
+						</div>
+						<!-- E 图片列表 卡片 -->
+						{/module}
+					</div>
+					<!-- S 分页按钮 -->
+					<div class="page_flip">{$pages_c1}</div>
+					<!-- E 分页按钮 -->
+				</article>
+			</section>
+			<!-- E 内容区域 -->
+			<!-- S 通用尾部 -->
+			{template "common/common_footer.html"}
+			<!-- E 通用尾部 -->
+		</div>
+		{template "common/common_bottom.html"}
+		<script src="{HOME_THEME_PATH}js/list_picture.js"></script>
+	</body>
+</html>

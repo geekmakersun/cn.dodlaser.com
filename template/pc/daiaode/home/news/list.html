@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta
+			content="text/html; charset=utf-8"
+			http-equiv="Content-Type" />
+		<title>{$meta_title}</title>
+		<meta
+			content="{$meta_keywords}"
+			name="keywords" />
+		<meta
+			content="{$meta_description}"
+			name="description" />
+		{template "common/common_top.html"}
+		<link
+			href="{HOME_THEME_PATH}css/list.css?v=570b48d1&570b48d1b6d26ca4a487"
+			rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="page uk-background-muted">
+			<!-- S 通用顶部 -->
+			<div class="uk-position-relative">
+				<!-- S 轮播图-->
+				{template "common/web-slideshow-2.html"}
+				<!-- E 轮播图 -->
+				<!-- S 固定导航条 -->
+				{template "common/common_nav.html"}
+				<!-- E 固定导航条 -->
+			</div>
+			<!-- E 通用顶部 -->
+			<!-- S 内容区域 -->
+			<section class="uk-container uk-container-xlarge uk-section-small">
+				<article class="uk-article uk-background-default uk-article uk-padding uk-border-rounded">
+					{module catid=$catid order=updatetime page=1 return=c1}
+					<!-- S 文字列表内容 -->
+					<a
+						class="uk-card uk-card-hover uk-card-body uk-card-default uk-flex uk-flex-between uk-flex-middle uk-margin-medium-bottom"
+						href="{$c1.url}"
+						title="{$c1.title}">
+						<div class="uk-width-1-6">
+							<div class="uk-text-center">
+								<p class="uk-h1 uk-margin-remove">{dr_date($c1._updatetime, "d")}</p>
+								<p class="uk-h4 uk-margin-remove">{dr_date($c1._updatetime, "Y/m")}</p>
+							</div>
+						</div>
+						<div class="uk-width-5-6 uk-padding-left">
+							<div class="uk-h3 uk-margin-remove">{dr_strcut($c1.title,42, '...')}</div>
+							<div class="uk-margin-small-top uk-text-meta uk-text-small">{dr_strcut($c1.description,92, '...')}</div>
+						</div>
+					</a>
+					<!-- E 文字列表内容 -->
+					{/module}
+					<!-- S 分页按钮 -->
+					<div class="page_flip">{$pages_c1}</div>
+					<!-- E 分页按钮 -->
+				</article>
+			</section>
+			<!-- E 内容区域 -->
+			<!-- S 通用尾部 -->
+			{template "common/common_footer.html"}
+			<!-- E 通用尾部 -->
+		</div>
+		{template "common/common_bottom.html"}
+		<script src="{HOME_THEME_PATH}js/page.js?24b5bdd303c1f7673dfa"></script>
+	</body>
+</html>

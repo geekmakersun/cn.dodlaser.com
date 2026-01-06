@@ -1,0 +1,42 @@
+{template "header.html"}
+
+<div class="right-card-box">
+    <div class="table-scrollable">
+        <table class="table table-striped table-bordered table-hover table-checkable dataTable">
+            <thead>
+                <tr>
+                    <th>备份名称</th>
+                    <th>备份表</th>
+                    <th width="120">文件大小</th>
+                    <th width="160">备份时间</th>
+                    <th width="120">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {if $list}
+            {loop $list $t}
+            <tr>
+                <td>{$t.name}</td>
+                <td>{$t.tables}</td>
+                <td>{$t.size}</td>
+                <td>{$t.time}</td>
+                <td>
+                    {if $t.indb}
+                    <button class="btn btn-xs grey" disabled><i class="fa fa-check"></i> 已导入</button>
+                    {else}
+                    <a href="javascript:;" onclick="dr_ajax_confirm('{dr_lang('确定要导入记录吗？')}', '{dr_url('dbbackup/home/import',['name'=>$t.name])}')" class="btn btn-xs green"><i class="fa fa-sign-in"></i> 导入</a>
+                    {/if}
+                </td>
+            </tr>
+            {/loop}
+            {else}
+            <tr>
+                <td colspan="5" class="fc-text-center">未发现备份文件</td>
+            </tr>
+            {/if}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{template "footer.html"} 

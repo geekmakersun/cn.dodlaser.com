@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <title>{$meta_title}</title>
+  <meta content="{$meta_keywords}" name="keywords" />
+  <meta content="{$meta_description}" name="description" />
+  {template "common/common_top.html"}
+  <link href="{HOME_THEME_PATH}css/list_picture.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="list_picture uk-background-muted">
+    <!-- S 通用顶部 -->
+    <div class="uk-position-relative">
+      <!-- S 轮播图-->
+      {template "common/web-slideshow-2.html"}
+      <!-- E 轮播图 -->
+      <!-- S 固定导航条 -->
+      {template "common/common_nav.html"}
+      <!-- E 固定导航条 -->
+    </div>
+    <!-- E 通用顶部 -->
+    <!-- S 内容区域 -->
+		<section class="uk-container uk-section">
+			<article class="uk-article uk-background-default uk-padding-small uk-border-rounded">
+				{category module=share pid=$cat.id return=c1}
+				<!-- S 按组分类 -->
+				<!-- S 按组分类 标题 -->
+				<div class="uk-heading-bullet uk-heading-line uk-margin-small-bottom"
+					 uk-scrollspy="cls: uk-animation-slide-right; delay: 100;">
+					<a class="uk-h3"
+					   href="{$c1.url}"
+					   title="{$c1.name}"><span>{$c1.name}</span></a>
+				</div>
+				<!-- E 按组分类 标题 -->
+				<!-- S 按组分类 内容区域 -->
+				<div class="uk-child-width-1-2 uk-child-width-1-4@s uk-grid uk-grid-small uk-margin-medium-bottom"
+					 uk-grid="masonry: true"
+					 uk-scrollspy="cls: uk-animation-slide-bottom; target: .uk-card; delay: 100;">
+					{module module=MOD_DIR catid=$c1.id order=updatetime_desc return=t1}
+					<!-- S 图片列表 卡片 -->
+					<div>
+						<a class="uk-card uk-card-hover uk-border-rounded"
+						   href="{$t1.url}"
+						   target="_blank"
+						   title="{$c.title}"
+						   tabindex="0">
+							<div class="uk-inline-clip uk-transition-toggle">
+								<div class="uk-transition-scale-up uk-transition-opaque">
+									<img src="{dr_thumb($t1['thumb'], 400, 400, 0, 'crop')}"
+										 width="400"
+										 height="400"
+										 alt="{$t1['title']}"
+										 title="{$t1['title']}">
+								</div>
+							</div>
+							<div class="uk-margin-small-top uk-text-center uk-text-truncate">{$t1['title']}</div>
+						</a>
+					</div>
+					<!-- E 图片列表 卡片 -->
+					{/module}
+					{if $return_t1 !=true}<div class="uk-margin-medium-top uk-text-center uk-width-1">—— No content ——</div>{/if}
+				</div>
+				<!-- E 按组分类 内容区域 -->
+				{/category}
+			</article>
+		</section>
+		<!-- E 内容区域 -->
+    <!-- S 通用尾部 -->
+    {template "common/common_footer.html"}
+    <!-- E 通用尾部 -->
+  </div>
+  {template "common/common_bottom.html"}
+  <script src="{HOME_THEME_PATH}js/list_picture.js"></script>
+</body>
+
+</html>

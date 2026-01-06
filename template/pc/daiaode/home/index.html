@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<title>{$meta_title}</title>
+		<meta content="{$meta_keywords}" name="keywords" />
+		<meta content="{$meta_description}" name="description" />
+		{template "common/common_top.html"}
+		<link href="{HOME_THEME_PATH}css/index.min.css?v=2" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="home">
+			<!-- S 通用顶部 -->
+			<div class="uk-position-relative">
+				<!-- S 轮播图-->
+				{template "common/web-slideshow-1.html"}
+				<!-- E 轮播图 -->
+				<!-- S 固定导航条 -->
+				{template "common/common_nav.html"}
+				<!-- E 固定导航条 -->
+			</div>
+			<!-- E 通用顶部 -->
+			<!-- S 产品分类 -->
+			<section class="uk-section home_product">
+				<div class="web_title1 uk-text-center">
+					<div class="uk-h2 text_spacing uk-text-bold">PRODUCT</div>
+				</div>
+				<div class="uk-container uk-margin-top">
+					<div class="uk-child-width-1-2 uk-child-width-1-3@m uk-flex-center uk-text-center uk-grid" uk-grid>
+						{category module=share pid=5 id=15,16,17}
+						<div>
+							<a class="uk-card uk-card-default" href="{$t.url}" title="{$t.name}">
+								<div class="uk-card-media-top">
+									<img class="uk-border-pill uk-background-muted uk-box-shadow-medium uk-padding uk-box-shadow-hover-large"
+										src="{dr_thumb($t.thumb,380,380,0,'crop')}" width="380" height="380"
+										alt="{$t.name}" title="{$t.name}" />
+								</div>
+								<div class="uk-card-body">
+									<h3 class="uk-card-title">{$t.name}</h3>
+									<p>{$t.jsnr}</p>
+								</div>
+							</a>
+						</div>
+						{/category}
+					</div>
+					<div class="uk-text-center">
+						<a class="uk-button uk-button-primary" href="{SITE_URL}products/"
+							title="Learn More Products">Learn More
+						</a>
+					</div>
+				</div>
+			</section>
+			<!-- E 产品分类-->
+			<!-- S 治疗方法 -->
+			<section class="uk-section home_treatments uk-background-muted">
+				<div class="web_title1 uk-text-center">
+					<div class="uk-h2 text_spacing uk-text-bold">treatments</div>
+				</div>
+				<div class="uk-container uk-margin-top">
+					<div class="uk-flex uk-flex-center uk-flex-wrap"
+						uk-switcher="animation: uk-animation-slide-right-medium; toggle: > *">
+						{category module=treatments pid=6 order=displayorder_asc return=c}
+						<button
+							class="uk-button uk-button-default uk-margin-small-left uk-margin-small-right uk-margin-bottom"
+							type="button">
+							{$c.name}
+						</button>
+						{/category}
+					</div>
+					<ul class="uk-switcher uk-margin">
+						{category module=treatments pid=6 return=c1}
+						<li>
+							<div class="uk-margin-top uk-child-width-1-2 uk-child-width-1-3@m uk-grid"
+								uk-grid="masonry: true">
+								{module module=treatments catid=$c1.id order=displayorder_asc num=6 return=c2}
+								<div>
+									<a class="uk-card uk-card-default uk-card-hover uk-inline" href="{$c2.url}"
+										title="{$c2.title}">
+										<div class="uk-card-media-top uk-inline-clip uk-transition-toggle">
+											<img class="uk-transition-scale-up uk-transition-opaque"
+												src="{dr_thumb($c2.thumb,375,263,0,'crop')}" width="375" height="263"
+												alt="{$c2.name}" title="{$c2.name}" />
+										</div>
+										<div class="uk-overlay uk-light uk-position-bottom">
+											<p class="uk-text-truncate uk-text-center">{$c2.title}</p>
+										</div>
+									</a>
+								</div>
+								{/module}
+							</div>
+						</li>
+						{/category}
+					</ul>
+					<div class="uk-text-center uk-padding">
+						<a class="uk-button uk-button-primary" href="{dr_cat_value('photo', $c2['catid'], 'url')}"
+							title="Learn More {dr_cat_value('photo', $c2['catid'], 'name')}">Learn More
+							{dr_cat_value('photo', $c2['catid'], 'name')}</a>
+					</div>
+				</div>
+			</section>
+			<!-- E 治疗方法-->
+			<!-- S 关于我们 -->
+			<section class="uk-section home_about">
+				<div class="uk-container">
+					<div class="uk-child-width-expand@s uk-grid" uk-grid>
+						<div>
+							<div class="web_title2 uk-margin-small-bottom">
+								<div class="uk-h2">About <span>US</span></div>
+							</div>
+							<div class="home_about-txt">
+								{dr_strcut(dr_clearhtml(dr_share_cat_value(1,'content')),1200,'...')}
+							</div>
+							<div class="uk-flex uk-flex-around uk-margin-large-top">
+								<a class="uk-button uk-button-primary" href="{SITE_URL}about/" title="About Us">Learn
+									More</a>
+							</div>
+						</div>
+						<div>
+							<div class="uk-inline-clip uk-transition-toggle">
+								<img class="uk-transition-scale-up uk-transition-opaque"
+									src="{HOME_THEME_PATH}img/web_about-pic.jpg?v=ca02fc98" width="620" height="636"
+									alt="" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="uk-child-width-expand@s uk-margin-medium-top">
+					<img src="{HOME_THEME_PATH}img/home_certificate.jpg?v=21badbdf" width="1920" height="320" alt="" />
+				</div>
+			</section>
+			<!-- E 关于我们-->
+			<!-- S 视频&问答 -->
+			<section class="uk-section home_videofaq uk-background-muted">
+				<div class="uk-container">
+					<div class="uk-child-width-expand@s uk-grid" uk-grid>
+						<div>
+							<div class="web_title2 uk-margin-small-bottom">
+								<div class="uk-h2">Video</div>
+							</div>
+							<script src="{dr_get_app_css('node_modules')}hls.js/dist/hls.min.js"></script>
+							<video id="indexVideo" class="web_video-video" width="640" height="360" controls></video>
+							<script>
+								const video = document.getElementById("indexVideo");
+
+								if (Hls.isSupported()) {
+									const hls = new Hls();
+									hls.loadSource("{HOME_THEME_PATH}video/dod-video.m3u8");
+									hls.attachMedia(video);
+									hls.on(Hls.Events.MANIFEST_PARSED, function () {
+										video.play();
+									});
+								} else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+									video.src = "{HOME_THEME_PATH}video/dod-video.m3u8";
+								}
+							</script>
+						</div>
+						<div>
+							<div class="web_title2 uk-margin-small-bottom">
+								<div class="uk-h2">FAQ</div>
+							</div>
+							{module module=news catid=3 order=updatetime num=3 return=c1}
+							<a href="{$c1.url}" title="{$c1.title}">
+								<dl class="home_faq-dl">
+									<dt class="home_faq-dt uk-flex">
+										<div class="home_faq-div1"><span>Q</span></div>
+										<div class="home_faq-dt-div2 uk-text-truncate">
+											{$c1.title}
+										</div>
+									</dt>
+									<dd class="home_faq-dd uk-flex">
+										<div><span>A</span></div>
+										<div class="home_faq-dd-div2">
+											{dr_strcut($c1['description'], 150, '...')}
+										</div>
+									</dd>
+								</dl>
+							</a>
+							{/module}
+							<div class="uk-text-right uk-margin-top">
+								<a class="uk-button uk-button-primary" href="{SITE_URL}faq/"
+									title="Learn More FaQ">Learn More</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- E 视频&问答-->
+			<!-- S 新闻列表 -->
+			<section class="uk-section home_news">
+				<div class="web_title1 uk-text-center">
+					<div class="uk-h2 text_spacing uk-text-bold">NEWS</div>
+				</div>
+				<div class="uk-container uk-margin-top">
+					<div class="uk-child-width-expand@s uk-grid uk-text-center" uk-grid>
+						{module module=news catid=4 thumb=1 order=displayorder_asc num=3 return=c1}
+						<div>
+							<div class="uk-card uk-card-default">
+								<a class="uk-card-media-top uk-inline" href="{$c1.url}" title="{$c1.title}">
+									<div class="uk-inline-clip uk-transition-toggle">
+										<img class="uk-transition-scale-up uk-transition-opaque"
+											src="{dr_thumb($c1.thumb,375,263,0,'crop')}" width="375" height="263"
+											alt="{$c1.title}" title="{$c1.title}" />
+									</div>
+									<div class="uk-overlay uk-light uk-position-bottom">
+										<p class="uk-text-truncate uk-text-center">{$c1.title}</p>
+									</div>
+								</a>
+								<div class="uk-card-body uk-padding-small">
+									<p>{$c1.description}</p>
+								</div>
+							</div>
+						</div>
+						{/module}
+					</div>
+					<div class="uk-text-center uk-margin-top">
+						<a class="uk-button uk-button-primary" href="{SITE_URL}news/" title="Learn More News">Learn
+							More</a>
+					</div>
+				</div>
+			</section>
+			<!-- E 新闻列表-->
+			<!-- S 通用尾部 -->
+			{template "common/common_footer.html"}
+			<!-- E 通用尾部 -->
+		</div>
+		{template "common/common_bottom.html"}
+		<script src="{HOME_THEME_PATH}js/index.js"></script>
+	</body>
+
+</html>

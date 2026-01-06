@@ -1,0 +1,15 @@
+<div
+	class="web_go-to-up uk-border-rounded"
+	uk-tooltip="返回顶部"
+	uk-totop
+	uk-scroll></div>
+<script src="{HOME_THEME_PATH}js/runtime.js"></script>
+<script src="{HOME_THEME_PATH}js/vendors.js"></script>
+<script src="{HOME_THEME_PATH}js/common.js"></script>
+{if !is_file(WRITEPATH.'config/run_lock.php')}
+<script>
+	$(function () {
+		$.ajax({ type: "GET", dataType: "json", url: "/index.php?s=api&c=run&is_ajax=1&num=5" });
+	});
+</script>
+{/if}

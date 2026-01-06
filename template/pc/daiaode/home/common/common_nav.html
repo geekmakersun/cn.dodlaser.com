@@ -1,0 +1,152 @@
+<div class="uk-position-top">
+	<!-- S 通用顶部 电脑端 -->
+	<div
+		class="uk-navbar-container uk-navbar-transparent"
+		uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent;">
+		<div class="uk-container uk-container-xlarge">
+			<nav
+				class="uk-navbar-containe uk-navbar uk-flex uk-flex-between uk-flex-bottom uk-visible@l"
+				uk-navbar="delay-hide: 100;align:center;">
+				<a
+					class="uk-width-1-6@xl uk-width-1-5@l uk-flex-left uk-navbar-item uk-logo"
+					href="{SITE_URL}"
+					title="{SITE_TITLE}">
+					<img
+						class=""
+						src="{HOME_THEME_PATH}img/logo.png?v=432b76e4"
+						title="{SITE_TITLE}"
+						alt="{SITE_TITLE}" />
+				</a>
+				<div class="">
+					<ul class="uk-navbar-nav">
+						<li class="{if $indexc}uk-active{/if}">
+							<a
+								class="uk-navbar-item"
+								href="{SITE_URL}"
+								title="{SITE_TITLE}"
+								>Home</a
+							>
+						</li>
+						{category module=share pid=0}
+						<li class="{if IS_SHARE && $catid && in_array($catid, $t.catids)}uk-active{/if}">
+							<a
+								class="uk-navbar-item"
+								href="{$t.url}"
+								title="{$t.name}"
+								>{$t.name}{if $t.child}<span class="web_menu-arrow"></span>{/if}</a
+							>
+							{if $t.child}
+							<div class="uk-navbar-dropdown">
+								<ul class="uk-nav uk-navbar-dropdown-nav">
+									{category module=share pid=$t.id return=t2}
+									<li>
+										<a
+											href="{$t2.url}"
+											title="{$t2.name}"
+											>{$t2.name}</a
+										>
+									</li>
+									{/category}
+								</ul>
+							</div>
+							{/if}
+						</li>
+						{/category}
+						<li class="uk-inline">
+							<a
+								class="uk-navbar-item"
+								href="javascript:void(0);">
+								<i class="web_icon fab fa-whatsapp"> </i>
+							</a>
+							<div
+								class="uk-width-medium uk-navbar-dropdown"
+								uk-dropdown="pos: bottom-justify;delay-hide: 100;">
+								<div class="uk-card uk-card-default">
+									<img
+										class=""
+										src="{HOME_THEME_PATH}img/qr-code.jpg?v=6ac85b87" />
+								</div>
+							</div>
+						</li>
+						<li class="">
+							<a
+								class="uk-navbar-item"
+								href="mailto:{dr_site_info('18html_email')}">
+								<i class="web_icon fas fa-envelope"> </i>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+	<!-- E 通用顶部 电脑端 -->
+	<!-- S 通用顶部 移动端 -->
+	<div uk-sticky="show-on-up: true; animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent;">
+		<nav class="uk-navbar uk-navbar-container uk-hidden@l">
+			<div class="uk-navbar-left uk-width-expand">
+				<a
+					class="uk-navbar-item uk-flex-left uk-logo"
+					href="#">
+					<img
+						class=""
+						src="{HOME_THEME_PATH}img/logo.png?v=069bedef" />
+				</a>
+			</div>
+			<div class="uk-navbar-right uk-width-auto">
+				<a
+					class="uk-navbar-toggle"
+					uk-navbar-toggle-icon
+					href="#m-nav"
+					uk-toggle></a>
+			</div>
+		</nav>
+	</div>
+	<div
+		id="m-nav"
+		uk-offcanvas="mode: slide;  overlay: true">
+		<div class="uk-offcanvas-bar">
+			<button
+				class="uk-offcanvas-close"
+				type="button"
+				uk-close></button>
+			<ul class="uk-nav uk-nav-default">
+				<li class="{if $indexc}uk-active{/if}">
+					<a
+						class="uk-navbar-item"
+						href="{SITE_URL}"
+						title="{SITE_TITLE}"
+						>Home</a
+					>
+				</li>
+				{category module=share pid=0}
+				<li class="{if IS_SHARE && $catid && in_array($catid, $t.catids)}uk-active{/if}">
+					<a
+						class="uk-navbar-item"
+						href="{$t.url}"
+						title="{$t.name}"
+						>{$t.name}{if $t.child}<span class="web_menu-arrow"></span>{/if}</a
+					>
+					{if $t.child}
+					<div class="uk-navbar-dropdown">
+						<ul class="uk-nav uk-navbar-dropdown-nav">
+							{category module=share pid=$t.id return=t2}
+							<li>
+								<a
+									class="uk-navbar-item"
+									href="{$t2.url}"
+									title="{$t2.name}"
+									>{$t2.name}</a
+								>
+							</li>
+							{/category}
+						</ul>
+					</div>
+					{/if}
+				</li>
+				{/category}
+			</ul>
+		</div>
+	</div>
+	<!-- E 通用顶部 移动端 -->
+</div>

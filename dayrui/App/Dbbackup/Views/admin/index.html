@@ -1,0 +1,111 @@
+{template "header.html"}
+
+<div class="right-card-box">
+    <form action="" method="post" id="myform">
+        {dr_form_hidden()}
+        <div class="table-scrollable" style="margin-bottom: 60px;">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-8">
+                        <span class="help-block">注意：备份数据库会占用系统资源，请在网站访问量较少的时候进行操作！</span>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <button type="button" onclick="dr_select_all_click()" class="btn btn-sm blue"> <i class="fa fa-check"></i> 全选</button>
+                        <button type="button" onclick="dr_submit_todo('{dr_lang('确定要备份吗？')}')" class="btn btn-sm green"> <i class="fa fa-database"></i> 开始备份</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="table-list">
+                    <table class="table table-striped table-bordered table-hover table-checkable dataTable">
+                        <thead>
+                            <tr>
+                                <th width="50">
+                                    <input type="checkbox" onclick="dr_select_all(this)" />
+                                </th>
+                                <th>表名</th>
+                                <th width="150">记录数</th>
+                                <th width="150">大小</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {if $tables}
+                        {loop $tables $t}
+                        <?php 
+                            $info = \Phpcmf\Service::M()->db->query("SHOW TABLE STATUS LIKE '".$t."'")->getRowArray();
+                        ?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="tables[]" value="{$t}" class="dr_select" />
+                            </td>
+                            <td>{$t}</td>
+                            <td>{$info['Rows']}</td>
+                            <td>{dr_format_file_size($info['Data_length'] + $info['Index_length'])}</td>
+                        </tr>
+                        {/loop}
+                        {/if}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div style="position:fixed; bottom:0; left:0; right:0; background:#fff; box-shadow:0 -1px 2px rgba(0,0,0,0.1); z-index:999; margin:0; padding:15px 0; text-align:center;">
+            <button type="button" onclick="dr_select_all_click()" class="btn blue"> <i class="fa fa-check"></i> 全选</button>
+            <button type="button" onclick="dr_submit_todo('{dr_lang('确定要备份吗？')}')" class="btn green"> <i class="fa fa-save"></i> 开始备份</button>
+        </div>
+    </form>
+</div>
+
+<script>
+function dr_select_all(e) {
+    if ($(e).is(':checked')) {
+        $('.dr_select').prop('checked', true);
+    } else {
+        $('.dr_select').prop('checked', false);
+    }
+}
+
+function dr_select_all_click() {
+    var isChecked = $('.dr_select:first').prop('checked');
+    $('.dr_select').prop('checked', !isChecked);
+    $('thead input[type="checkbox"]').prop('checked', !isChecked);
+}
+
+function dr_submit_todo(msg) {
+    layer.confirm(
+        msg, 
+        {
+            icon: 3,
+            shade: 0,
+            title: dr_lang('提示')
+        },
+        function(index){
+            layer.close(index);
+            var _data = $("#myform").serialize();
+            $.ajax({
+                type: "POST",
+                url: "{dr_url('dbbackup/home/backup')}",
+                data: _data,
+                dataType: "json",
+                success: function(json) {
+                    if (json.code == 1) {
+                        dr_tips(1, json.msg);
+                        setTimeout(function(){
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        dr_tips(0, json.msg);
+                    }
+                },
+                error: function(HttpRequest, ajaxOptions, thrownError) {
+                    dr_ajax_alert_error(HttpRequest, ajaxOptions, thrownError);
+                }
+            });
+        }
+    );
+}
+</script>
+
+{template "footer.html"} 
