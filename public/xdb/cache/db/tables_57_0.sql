@@ -1,2 +1,0 @@
-
-REPLACE INTO `dr_admin_notice` (`id`, `site`, `type`, `msg`, `uri`, `to_rid`, `to_uid`, `status`, `uid`, `username`, `op_uid`, `op_username`, `updatetime`, `inputtime`) VALUES ('1', '0', 'member', '新会员【dod】注册审核', 'member/verify/index:field/id/keyword/2', '0', '0', '3', '2', 'dod', '0', '', '1726210719', '1709181745');<XUNRUICMS_DB_LINE>

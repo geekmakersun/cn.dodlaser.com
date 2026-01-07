@@ -1,3 +1,0 @@
-
-REPLACE INTO `dr_member_data` (`id`, `is_admin`, `is_lock`, `is_auth`, `is_verify`, `is_mobile`, `is_avatar`, `is_complete`, `is_email`) VALUES ('1', '1', '0', '1', '1', '1', '0', '1', '1');<XUNRUICMS_DB_LINE>
-REPLACE INTO `dr_member_data` (`id`, `is_admin`, `is_lock`, `is_auth`, `is_verify`, `is_mobile`, `is_avatar`, `is_complete`, `is_email`) VALUES ('2', '1', '0', '0', '1', '0', '0', '0', '1');<XUNRUICMS_DB_LINE>
