@@ -58,8 +58,8 @@
 					<hr />
 					{/if}
 					<!-- S 前后翻页 -->
-					<p>Previous：<a href="{if $prev_page}{$prev_page.url}{else}javascript:void(0);{/if}">{if $prev_page}{$prev_page.title}{else}No More{/if}</a></p>
-					<p>Next：<a href="{if $next_page}{$next_page.url}{else}javascript:void(0);{/if}">{if $next_page}{$next_page.title}{else}No More{/if}</a></p>
+					<p>上一页：<a href="{if $prev_page}{$prev_page.url}{else}javascript:void(0);{/if}">{if $prev_page}{$prev_page.title}{else}没有更多内容{/if}</a></p>
+					<p>下一页：<a href="{if $next_page}{$next_page.url}{else}javascript:void(0);{/if}">{if $next_page}{$next_page.title}{else}没有更多内容{/if}</a></p>
 					<!-- E 前后翻页 -->
 				</article>
 			</section>
