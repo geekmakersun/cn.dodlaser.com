@@ -20,8 +20,10 @@ if (!defined('FRAMEPATH')) {
         }
     }
     // 低版本兼容
-    if ($frame == 'System' && version_compare(PHP_VERSION, '8.1') < 0 && is_file(FCPATH.'CodeIgniter/Init.php')) {
+    if ($frame == 'System' && version_compare(PHP_VERSION, '8.0') < 0 && is_file(FCPATH.'CodeIgniter/Init.php')) {
         $frame = 'CodeIgniter';
+    } elseif ($frame == 'System' && version_compare(PHP_VERSION, '7.4') < 0 && is_file(FCPATH.'CodeIgniter72/Init.php')) {
+        $frame = 'CodeIgniter72';
     }
     define('FRAMEPATH', FCPATH.$frame.'/');
 }
@@ -328,6 +330,25 @@ if (!function_exists('locale_set_default')) {
 }
 
 /*
+ * url后缀参数格式化
+ */
+function dr_url_safe_params($url) {
+
+    if (!$url) {
+        return $url;
+    }
+
+    // 移除所有非URL合法字符
+    $url = preg_replace('/[^a-zA-Z0-9\%:\/?#\[\]@!$&\'()*+,;=._~-]/', '', $url);
+    // 移除JavaScript事件处理器
+    $url = preg_replace('/on\w+\s*=/i', '', $url);
+    // 移除HTML标签
+    $url = strip_tags($url);
+    
+    return $url;
+}
+
+/*
  * 重写is_cli
  */
 function is_cli(): bool {
@@ -379,7 +400,9 @@ if (is_cli()) {
 
     $url.= '://'.$host;
     IS_ADMIN && define('ADMIN_URL', $url.'/'); // 优先定义后台域名
-    define('FC_NOW_URL', $url.($_SERVER['REQUEST_URI'] ? $_SERVER['REQUEST_URI'] : (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] ? $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'] : $_SERVER['PHP_SELF'])));
+    // url后缀参数
+    $end = ($_SERVER['REQUEST_URI'] ? $_SERVER['REQUEST_URI'] : (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] ? $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'] : $_SERVER['PHP_SELF']));
+    define('FC_NOW_URL', $url.dr_url_safe_params($end));
     define('FC_NOW_HOST', $url.'/'); // 域名部分
     define('DOMAIN_NAME', $host); // 当前域名
     
@@ -406,10 +429,14 @@ if (is_cli()) {
         $routes['rewrite-test.html(.*)'] = 'index.php?s=api&c=rewrite&m=test';
         if (is_file(WEBPATH.'config/rewrite.php')) {
             $my = require WEBPATH.'config/rewrite.php';
-            $my && $routes = array_merge($routes, $my);
+            if ($my && is_array($my)) {
+                $routes = array_merge($routes, $my);
+            }
         } elseif (is_file(CONFIGPATH.'rewrite.php')) {
             $my = require CONFIGPATH.'rewrite.php';
-            $my && $routes = array_merge($routes, $my);
+            if ($my && is_array($my)) {
+                $routes = array_merge($routes, $my);
+            }
         }
         // 正则匹配路由规则
         $is_404 = 1;

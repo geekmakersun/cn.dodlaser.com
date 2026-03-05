@@ -371,4 +371,43 @@ class Api extends \Phpcmf\Common {
         $this->_json(0, dr_lang('此功能已废弃'));
     }
 
+    /**
+     * 发送验证码
+     */
+    public function send_code() {
+
+        $phone = dr_safe_replace(\Phpcmf\Service::L('input')->get('id'));
+        if (!$phone) {
+            $this->_json(0, dr_lang('手机号码未填写'), ['field' => 'phone']);
+        } elseif (!\Phpcmf\Service::L('Form')->check_phone($phone)) {
+            $this->_json(0, dr_lang('手机号码格式不正确'), ['field' => 'phone']);
+        }
+
+        // 挂钩点 短信验证之前
+        \Phpcmf\Hooks::trigger('member_send_phone_before', $phone);
+
+        if (!defined('SYS_SMS_IMG_CODE') || SYS_SMS_IMG_CODE == 0) {
+            $code = dr_safe_replace(\Phpcmf\Service::L('input')->get('code'));
+            if (!$code) {
+                $this->_json(0, dr_lang('图片验证码未填写'), ['field' => 'code']);
+            } elseif (!\Phpcmf\Service::L('Form')->check_captcha_value($code)) {
+                $this->_json(0, dr_lang('图片验证码不正确'), ['field' => 'code']);
+            }
+        }
+
+        // 验证操作间隔
+        if (\Phpcmf\Service::L('Form')->get_mobile_code($phone)) {
+            $this->_json(1, dr_lang('已经发送稍后再试'));
+        }
+
+        $code = \Phpcmf\Service::L('Form')->get_rand_value();
+        $rt = \Phpcmf\Service::M('member')->sendsms_code($phone, $code);
+        if (!$rt['code']) {
+            $this->_json(0, IS_DEV ? $rt['msg'] : dr_lang('发送失败'));
+        }
+
+		\Phpcmf\Service::L('Form')->set_mobile_code($phone, $code);
+		
+        $this->_json(1, dr_lang('验证码发送成功'));
+    }
 }

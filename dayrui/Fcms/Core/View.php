@@ -360,7 +360,12 @@ class View {
             // 会员操作时，需要加载风格目录，如果文件不存在可以尝试调用主项目模板
             if ($dir === '/' && is_file($this->_root.$file)) {
                 return $this->_root.$file;
-            } elseif (is_file($this->_dir.$file)) {
+            }
+            if (IS_XRDEV) {
+                $this->_dir = dr_get_app_tpl($dir ? $dir : 'member').$this->_tname.'/'.SITE_TEMPLATE.'/member/'.($dir ? $mid.'/' : '');;
+               
+            }
+            if (is_file($this->_dir.$file)) {
                 // 调用当前的会员模块目录
                 return $this->_dir.$file;
             } elseif (is_file($this->_mroot.$file)) {
@@ -389,7 +394,7 @@ class View {
                 return $this->_root.$file;
             }
             // 尝试判断主defualt目录
-            $default_file = TPLPATH.$this->_tname.'/default/home/'.$file;
+            $default_file = TPLPATH.$this->_tname.'/default/home/'.(APP_DIR ? APP_DIR.'/' : '').$file;
             if (is_file($default_file)) {
                 $this->_load_file_tips[$file] = '由于模板文件['.$this->_dir.$file.']不存在，因此本页面引用default目录的模板['.$default_file.']';
                 return $default_file;
@@ -661,12 +666,12 @@ class View {
             "<?php echo \$\\1; ?>",
             "<?php echo \\Phpcmf\\Service::L('\\1')->\\2(\\3); ?>",
             //"<?php echo \$this->library_method(\"\\1\",\"\\2\", \$this->_get_method(\\3));,
-            "<?php if (\$fn_include = \$this->_include(\"\\1\", \"\\2\")) include(\$fn_include); ?>",
-            "<?php if (\$fn_include = \$this->_include(\"\\1\", \"MOD_DIR\")) include(\$fn_include); ?>",
-            "<?php if (\$fn_include = \$this->_include(\"\\1\")) include(\$fn_include); ?>",
-            "<?php if (\$fn_include = \$this->_include(\"\\1\")) include(\$fn_include); ?>",
-            "<?php if (\$fn_include = \$this->_load(\"\\1\")) include(\$fn_include); ?>",
-            "<?php if (\$fn_include = \$this->_load(\"\\1\")) include(\$fn_include); ?>",
+            "<?php if (\$fn_include = \$this->_include(\"\\1\", \"\\2\")) { include(\$fn_include); } ?>",
+            "<?php if (\$fn_include = \$this->_include(\"\\1\", \"MOD_DIR\")) { include(\$fn_include); } ?>",
+            "<?php if (\$fn_include = \$this->_include(\"\\1\")) { include(\$fn_include); } ?>",
+            "<?php if (\$fn_include = \$this->_include(\"\\1\")) { include(\$fn_include); } ?>",
+            "<?php if (\$fn_include = \$this->_load(\"\\1\")) { include(\$fn_include); } ?>",
+            "<?php if (\$fn_include = \$this->_load(\"\\1\")) { include(\$fn_include); } ?>",
             "<?php \\1 ?>",
             "<?php \$return_\\2 = [];\$list_return_\\2 = \$this->list_tag(\"\\1 return=\\2\"); if (\$list_return_\\2) { extract(\$list_return_\\2, EXTR_OVERWRITE); \$count_\\2=dr_count(\$return_\\2);} if (is_array(\$return_\\2) && \$return_\\2) { \$key_\\2=-1;foreach (\$return_\\2 as \$\\2) { \$key_\\2++; \$is_first=\$key_\\2==0 ? 1 : 0;\$is_last=\$count_\\2==\$key_\\2+1 ? 1 : 0;  ?>",
             "<?php \$return = [];\$list_return = \$this->list_tag(\"\\1\"); if (\$list_return) { extract(\$list_return, EXTR_OVERWRITE); \$count=dr_count(\$return);} if (is_array(\$return) && \$return) { \$key=-1; foreach (\$return as \$t) { \$key++; \$is_first=\$key==0 ? 1 : 0;\$is_last=\$count==\$key+1 ? 1 : 0; ?>",
@@ -706,8 +711,8 @@ class View {
             $regex_array[] = '#{'.$name.'\s+(.+?)\s?}#i';
             $regex_array[] = '#{\s?\/'.$name.'\s?}#i';
             // 替换直接变量输出
-            $replace_array[] = "<?php \$list_return_\\2 = \$this->list_tag(\"action=".$name." \\1 return=\\2\"); if (\$list_return_\\2 && is_array(\$list_return_\\2)) extract(\$list_return_\\2, EXTR_OVERWRITE); \$count_\\2=dr_count(\$return_\\2); if (is_array(\$return_\\2) && \$return_\\2) { \$key_\\2=-1;  foreach (\$return_\\2 as \$\\2) { \$key_\\2++; \$is_first=\$key_\\2==0 ? 1 : 0;\$is_last=\$count_\\2==\$key_\\2+1 ? 1 : 0; ?>";
-            $replace_array[] = "<?php \$list_return = \$this->list_tag(\"action=".$name." \\1\"); if (\$list_return && is_array(\$list_return)) extract(\$list_return, EXTR_OVERWRITE); \$count=dr_count(\$return); if (is_array(\$return) && \$return) { \$key=-1; foreach (\$return as \$t) { \$key++; \$is_first=\$key==0 ? 1 : 0;\$is_last=\$count==\$key+1 ? 1 : 0; ?>";
+            $replace_array[] = "<?php \$return_\\2 = [];\$list_return_\\2 = \$this->list_tag(\"action=".$name." \\1 return=\\2\"); if (\$list_return_\\2 && is_array(\$list_return_\\2)) { extract(\$list_return_\\2, EXTR_OVERWRITE); } \$count_\\2=dr_count(\$return_\\2); if (is_array(\$return_\\2) && \$return_\\2) { \$key_\\2=-1;  foreach (\$return_\\2 as \$\\2) { \$key_\\2++; \$is_first=\$key_\\2==0 ? 1 : 0;\$is_last=\$count_\\2==\$key_\\2+1 ? 1 : 0; ?>";
+            $replace_array[] = "<?php \$return = [];\$list_return = \$this->list_tag(\"action=".$name." \\1\"); if (\$list_return && is_array(\$list_return)) { extract(\$list_return, EXTR_OVERWRITE); } \$count=dr_count(\$return); if (is_array(\$return) && \$return) { \$key=-1; foreach (\$return as \$t) { \$key++; \$is_first=\$key==0 ? 1 : 0;\$is_last=\$count==\$key+1 ? 1 : 0; ?>";
             $replace_array[] = "<?php } } ?>";
         }
 
@@ -773,6 +778,25 @@ class View {
     // 存储缓存
     private function _save_cache_data($cache_name, $data, $time) {
         \Phpcmf\Service::L('cache')->set_data($cache_name, $data, $time);
+    }
+
+    // 解析参数变量和值
+    private function _get_params_var_val($t) {
+
+        if (!$t) {
+            return ['', ''];
+        }
+
+        $arr = ['!=' => 'NOT_', '>=' => 'EGT_', '<=' => 'ELT_', '==' => '', '=' => '', '>' => 'GT_', '<' => 'LT_'];
+        foreach ($arr as $a => $v) {
+            if (strpos($t, $a) !== FALSE) {
+                $var = substr($t, 0, strpos($t, $a));
+                $val = substr($t, strpos($t, $a) + strlen($a));
+                return [$v.$var, $val];
+            }
+        }
+
+        return ['', ''];
     }
 
     // list 标签解析
@@ -851,8 +875,7 @@ class View {
             'JSON', 'FIND'
         ];
         foreach ($params as $t) {
-            $var = substr($t, 0, strpos($t, '='));
-            $val = substr($t, strpos($t, '=') + 1);
+            list($var, $val) = $this->_get_params_var_val($t);
             if (!$var) {
                 continue;
             }

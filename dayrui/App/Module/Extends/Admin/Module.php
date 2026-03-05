@@ -130,6 +130,7 @@ class Module extends \Phpcmf\Table {
     protected function _Clink_tpl($uriprefix, $data) {
 
         $rt = '';
+        $ct = 1;
         // 记录的链接菜单
         if ($this->_is_admin_auth('edit')) {
             $rt.= '<label><a href="'.dr_url(APP_DIR.'/'.\Phpcmf\Service::L('Router')->class.'/edit').'&id='.$data['id'].'" class="btn btn-xs red"> <i class="fa fa-edit"></i> '.dr_lang('修改').'</a></label>';
@@ -141,15 +142,12 @@ class Module extends \Phpcmf\Table {
                             $rt.= '（'.$data[$a['table'].'_total'].'）';
                         }
                         $rt.= '</a></label>';
+                        $ct++;
                     }
                 }
             }
             $clink = $this->_app_clink('', $data);
             if ($clink) {
-                if ($this->module['setting']['is_op_more']) {
-                    $aa = $rt;
-                    $rt = '';
-                }
                 $data['cid'] = $data['id'];
                 $data['mid'] = APP_DIR;
                 $rep = new \php5replace($data);
@@ -159,19 +157,14 @@ class Module extends \Phpcmf\Table {
                         $rt.= '（'.$data[$a['field']].'）';
                     }
                     $rt.= '</a></label>';
+                    $ct++;
                 }
 
-                if ($this->module['setting']['is_op_more']) {
-                    $rt = $aa . '<div class="btn-group">
-    <button class="btn btn-xs blue dropdown-toggle" style="margin-top: 2px" type="button" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="false"> 
-        <i class="fa fa-cog"></i> 
-        ' . dr_lang('更多') . '
-        <i class="fa fa-angle-down"></i>
-    </button>
-    <ul class="dropdown-menu" role="menu"> ' . str_replace(['label', 'btn'], ['li', ''], $rt) . '   </ul>
-</div>';
-                }
             }
+        }
+
+        if ($ct > 2) {
+            $rt = "<div class=\"op-cell-scroll\"><span class=\"op-cell-inner\">".$rt."</span></div>";
         }
 
         return $rt;
@@ -1555,7 +1548,6 @@ class Module extends \Phpcmf\Table {
             if (!$data) {
                 return [];
             }
-
             if ($this->module['is_ctable']) {
                 $this->init['table'] = dr_module_ctable($this->init['table'], dr_cat_value($data['catid']));
             }
@@ -1773,6 +1765,21 @@ class Module extends \Phpcmf\Table {
                             foreach ($myflag as $i) {
                                 if (isset($this->module['setting']['flag'][$i])) {
                                     $this->content_model->insert_flag((int)$i, $id, $data[1]['uid'], $data[1]['catid']);
+                                }
+                            }
+                        }
+                        if ($old['catid'] != $data[1]['catid']) {
+                            // 修改过栏目
+                            $mtable1 = dr_module_ctable($this->content_model->mytable, dr_cat_value($old['catid']));
+                            $mtable2 = dr_module_ctable($this->content_model->mytable, dr_cat_value($data[1]['catid']));
+                            if ($mtable1 != $mtable2) {
+                                // 分表不一样才执行数据转移
+                                \Phpcmf\Service::M()->table($mtable2)->replace($data[1]);
+                                if (!defined('MODULE_CTABLE_CP_MAIN')) {
+                                    // 不是复制表的模式，改成删除主表数据
+                                    \Phpcmf\Service::M()->table($mtable1)->delete($id);
+                                } else {
+                                    \Phpcmf\Service::M()->table($mtable1)->replace($data[1]);
                                 }
                             }
                         }

@@ -219,7 +219,7 @@ class Member extends \Phpcmf\Model {
 
         // 附表字段
         $data2 = $this->db->table('member_data')->where('id', $uid)->get()->getRowArray();
-        $data2 && $data = array_merge($data, \Phpcmf\Service::L('Field')->app('member')->format_value(\Phpcmf\Service::C()->member_cache['field'], $data2));
+        $data2 && $data = dr_array2array($data, \Phpcmf\Service::L('Field')->app('member')->format_value(\Phpcmf\Service::C()->member_cache['field'], $data2));
 
         $data['uid'] = $data['id'];
         $data['avatar'] = dr_avatar($data['id']);
@@ -719,7 +719,7 @@ class Member extends \Phpcmf\Model {
         }
 
         // 组合字段信息
-        $data = array_merge($member, $data);
+        $data = dr_array22array($member, $data);
         $data['oauth'] = $oauth;
         $data['groupid'] = $groupid;
 

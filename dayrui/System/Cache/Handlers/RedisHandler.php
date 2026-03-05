@@ -191,7 +191,8 @@ class RedisHandler extends BaseHandler
             $keys = $this->redis->scan($iterator, $pattern);
 
             if (is_array($keys)) {
-                $matchedKeys = [...$matchedKeys, ...$keys];
+                //$matchedKeys = [...$matchedKeys, ...$keys];
+                $matchedKeys = array_merge($matchedKeys, $keys);
             }
         } while ($iterator > 0);
 

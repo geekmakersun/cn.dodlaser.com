@@ -2034,16 +2034,10 @@ function dr_list_field_value($value, $sys_field, $field) {
  * @return 返回合并后的数组
  */
 function dr_array2array($a1, $a2) {
-
-    $a = [];
-    $a = $a1 ? $a1 : $a;
-    if ($a2) {
-        foreach ($a2 as $t) {
-            $a[] = $t;
-        }
-    }
-
-    return $a;
+    return array_merge(
+        is_array($a1) ? $a1 : [],
+        is_array($a2) ? $a2 : []
+    );
 }
 
 /**
@@ -2054,9 +2048,11 @@ function dr_array2array($a1, $a2) {
  */
 function dr_array22array($a1, $a2) {
 
-    $a = [];
-    $a = $a1 ? $a1 : $a;
-    if ($a2) {
+    // 确保 $a1 是数组
+    $a = is_array($a1) ? $a1 : [];
+    
+    // 确保 $a2 是数组后再合并
+    if (is_array($a2) && !empty($a2)) {
         foreach ($a2 as $i => $t) {
             $a[$i] = $t;
         }
@@ -2459,7 +2455,12 @@ function dr_get_theme() {
         return ['default'];
     }
 
-    return array_diff(dr_dir_map(ROOTPATH.'static/', 1), ['assets']);
+    $path = WEBPATH.'static/';
+    if (!is_dir($path)) {
+        $path = ROOTPATH.'static/';
+    }
+
+    return array_diff(dr_dir_map($path, 1), ['assets']);
 }
 
 /**

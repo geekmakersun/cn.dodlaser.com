@@ -1,5 +1,79 @@
 {template "header.html"}
-
+{if \Phpcmf\Service::IS_PC_USER()}
+<style>
+/* Bootstrap Table 固定最后一列（操作列）- 内容列表 */
+.bootstrap-table .fixed-table-container .fixed-table-header table th:last-child,
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    background: #fff;
+    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.08);
+    width: 320px;
+    min-width: 320px;
+    vertical-align: middle;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-inner {
+    display: inline-block;
+    white-space: nowrap;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-inner .btn {
+    margin-right: 4px;
+}
+/* 操作列滚动条 */
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-scroll::-webkit-scrollbar {
+    height: 0;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-scroll:hover::-webkit-scrollbar,
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-scroll:focus-within::-webkit-scrollbar {
+    height: 4px;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-scroll::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-scroll::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body::-webkit-scrollbar {
+    height: 0;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body:hover::-webkit-scrollbar,
+.bootstrap-table .fixed-table-container .fixed-table-body:focus-within::-webkit-scrollbar {
+    height: 6px;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body table tbody td:last-child .op-cell-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+}
+.bootstrap-table .fixed-table-container .fixed-table-body {
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+}
+</style>
+{/if}
 {template "api_list_date_search.html"}
 <script type="text/javascript">
     function dr_module_delete() {

@@ -285,6 +285,125 @@ class Menu extends \Phpcmf\Model {
         return $afirst;
     }
 
+    // 更新app时的操作
+    public function update_app($dir) {
+
+        $path = dr_get_app_dir($dir);
+        if (!is_file($path.'Config/Menu.php')) {
+            return;
+        }
+
+        $menu = require $path.'Config/Menu.php';
+        if (!$menu) {
+            return;
+        }
+
+        $afirst = '';
+        if ($menu['admin']) {
+            // 后台菜单
+            foreach ($menu['admin'] as $mark => $top) {
+                // 插入顶级菜单
+                $mark = strlen($mark) > 2 ? $mark : '';
+                if (!$mark) {
+                    continue;
+                }
+
+                $is_top = $this->table('admin_menu')->where('mark', $mark)->getRow();
+                $top_id = $is_top ? $is_top['id'] : $this->_add('admin', 0, $top, $mark, true);
+
+
+                // 插入分组菜单
+                if ($top_id && $top['left'] && is_array($top['left'])) {
+                    foreach ($top['left'] as $mark2 => $left) {
+                        $mark2 = strlen($mark2) > 2 ? $mark2 : '';
+                        if (!$mark2) {
+                            continue;
+                        }
+
+                        $is_left = $this->table('admin_menu')->where('mark', $mark2)->getRow();
+                        $left_id = $is_left ? $is_left['id'] : $this->_add('admin', $top_id, $left, $mark2, true);
+                        
+                        // 插入链接菜单
+                        if ($left_id && $left['link'] && is_array($left['link'])) {
+                            foreach ($left['link'] as $key => $link) {
+                                if (!$afirst && $link['uri']) {
+                                    $afirst = $link['uri']; // 第一个菜单
+                                }
+                                if ($this->counts('admin_menu', 'pid='.$left_id.' and `uri`=\''.$link['uri'].'\'')) {
+                                    continue;
+                                }
+                                $id = $this->_add('admin', $left_id, $link, $link['mark'], 1);
+                                if (!$link['mark']) {
+                                    $this->_edit('admin', $id, [
+                                        'mark' => 'app-'.$dir.'-'.$id,
+                                    ]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        if ($menu['member'] && $this->is_table_exists('member_menu')) {
+            // 用户菜单
+            foreach ($menu['member'] as $mark => $top) {
+                // 插入顶级菜单
+                $mark = strlen($mark) > 2 ? $mark : '';
+                if (!$mark) {
+                    continue;
+                }
+
+                $is_top = $this->table('member_menu')->where('mark', $mark)->getRow();
+                $top_id = $is_top ? $is_top['id'] : $this->_add('member', 0, $top, $mark, true);
+
+                // 插入链接菜单
+                if ($top_id && $top['link'] && is_array($top['link'])) {
+                    foreach ($top['link'] as $mark2 => $link) {
+                        if ($this->counts('member_menu', 'pid='.$top_id.' and `uri`=\''.$link['uri'].'\'')) {
+                            continue;
+                        }
+                        $id = $this->_add('member', $top_id, $link, $link['mark'], 1);
+                        if (!$link['mark']) {
+                            $this->_edit('member_menu', $id, [
+                                'mark' => 'app-'.$dir.'-'.$id,
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($menu['admin_min']) {
+            // 简化菜单
+            foreach ($menu['admin_min'] as $mark => $top) {
+                // 插入顶级菜单
+                $mark = strlen($mark) > 2 ? $mark : '';
+                if (!$mark) {
+                    continue;
+                }
+
+                $is_top = $this->table('admin_min_menu')->where('mark', $mark)->getRow();
+                $top_id = $is_top ? $is_top['id'] : $this->_add('admin_min', 0, $top, $mark, true);
+
+                // 插入链接菜单
+                if ($top_id && $top['link'] && is_array($top['link'])) {
+                    foreach ($top['link'] as $mark2 => $link) {
+                        if ($this->counts('admin_min_menu', 'pid='.$top_id.' and `uri`=\''.$link['uri'].'\'')) {
+                            continue;
+                        }
+                        $id = $this->_add('admin_min', $top_id, $link, $link['mark'], 1);
+                        if (!$link['mark']) {
+                            $this->_edit('admin_min_menu', $id, [
+                                'mark' => 'app-'.$dir.'-'.$id,
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // 卸载app时的操作
     public function delete_app($dir) {
 

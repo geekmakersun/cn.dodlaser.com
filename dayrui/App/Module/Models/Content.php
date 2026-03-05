@@ -342,6 +342,9 @@ class Content extends \Phpcmf\Model {
         if ($id) {
             // 更新数据
             //$main['hits'] = 0;\
+            if (isset($main['id'])) {
+                unset($main['id']);
+            }
             $rt = $this->table($mtable)->update($id, $main);
             if (!$rt['code']) {
                 return $rt;
@@ -766,8 +769,8 @@ class Content extends \Phpcmf\Model {
 
         $table = $this->mytable;
 
-        $name = 'module-'.md5($table).'-hits-'.$id;
-        if (dr_is_app('html')) {
+        $name = 'module-'.md5($table).'-hits-'.$id.USER_HTTP_CODE.$this->uid;
+        if (dr_is_app('chtml')) {
             $hits = \Phpcmf\Service::L('input')->get_cookie($name);
         } else {
             $hits = \Phpcmf\Service::L('cache')->get_data($name);
@@ -838,7 +841,7 @@ class Content extends \Phpcmf\Model {
         \Phpcmf\Service::M()->table($this->mytable.'_hits')->replace($save);
 
         //session()->save($name, $id, 300); 考虑并发性能还是不用session了
-        if (dr_is_app('html')) {
+        if (dr_is_app('chtml')) {
             \Phpcmf\Service::L('input')->set_cookie($name, $hits, 300);
         } else {
             \Phpcmf\Service::L('cache')->set_data($name, $hits, 300);
@@ -1488,12 +1491,19 @@ class Content extends \Phpcmf\Model {
             return dr_return_data(0, dr_lang('目标栏目不存在'));
         }
 
-        $all = $this->table($this->mytable)->where_in('id', $ids)->getAll();
+        // 增加栏目分表
+        $all = $this->table($this->mytable.'_index')->where_in('id', $ids)->getAll();
         if ($all) {
-            foreach ($all as $t) {
-
+            foreach ($all as $row) {
+                $mtable = dr_module_ctable($this->mytable, dr_cat_value($row['catid']));
+                $t = $this->table($mtable)->get($row['id']);
+                if (!$t) {
+                    continue; 
+                }
                 $id = intval($t['id']);
-                $this->table($this->mytable)->update($id, ['catid' => $catid]);
+                $t['catid'] = $catid;
+                $mtable2 = dr_module_ctable($this->mytable, dr_cat_value($catid));
+                $this->table($mtable2)->replace($t);
                 $this->table($this->mytable.'_index')->update($id, ['catid' => $catid]);
                 // 判断附表是否存在,不存在则创建
                 $this->is_data_table($this->mytable.'_data_', $t['tableid']);

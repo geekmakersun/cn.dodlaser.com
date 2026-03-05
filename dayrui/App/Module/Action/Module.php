@@ -283,12 +283,24 @@ if ($this->_return_sql) {
                     if (!SYS_URL_REL) {
                         // 绝对地址 !$this->_is_pc || SITE_ID > 1 ||
                         $first_url = dr_url_prefix($first_url, $module['dirname']);
+                    } else {
+                        // 相对路径
+                        if (SITE_ID > 1 && WEB_DIR) {
+                            $first_url = dr_url_prefix($first_url, $module['dirname']);
+                            $first_url = dr_url_rel($first_url);
+                        }
                     }
                 }
                 $system['urlrule'] = dr_module_category_url($module, $cat, '{page}');
                 if (!SYS_URL_REL) {
                     // 绝对地址 !$this->_is_pc || SITE_ID > 1 ||
                     $system['urlrule'] = dr_url_prefix($system['urlrule'], $module['dirname']);
+                } else {
+                    // 相对路径
+                    if (SITE_ID > 1 && WEB_DIR) {
+                        $system['urlrule'] = dr_url_prefix($system['urlrule'], $module['dirname']);
+                        $system['urlrule'] = dr_url_rel($system['urlrule']);
+                    }
                 }
             }
         }

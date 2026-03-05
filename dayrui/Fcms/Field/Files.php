@@ -478,7 +478,7 @@ class Files extends \Phpcmf\Library\A_Field {
             var files_json_'.$name.' = '.$json.';
         $(function() {
             fileupload_files_init(files_json_'.$name.');
-            '.($field['setting']['option']['scroller'] ? '$(".scroller_'.$name.'_files .scroller").height("500");' : '').'
+            '.($field['setting']['option']['scroller'] && dr_count($value)>10 ? '$(".scroller_'.$name.'_files .scroller").height("450");' : '').'
         });
         </script>
         

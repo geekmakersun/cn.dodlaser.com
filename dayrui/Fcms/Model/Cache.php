@@ -136,6 +136,8 @@ class Cache extends \Phpcmf\Model {
                 && is_file($path.'Config/Update.php')) {
                require $path.'Config/Update.php';
             }
+            // 更新新增菜单
+            \Phpcmf\Service::M('menu')->update_app($dir);
         }
     }
 
@@ -166,6 +168,8 @@ class Cache extends \Phpcmf\Model {
                     $_cache = require $path.'Config/Cache.php';
                     $_cache && $app_cache[$dir] = $_cache;
                 }
+                // 更新新增菜单
+                \Phpcmf\Service::M('menu')->update_app($dir);
             }
             //dr_dir_delete(WRITEPATH.'data');
             foreach (['auth', 'email', 'member', 'attachment', 'system', 'site'] as $m) {
@@ -229,6 +233,8 @@ class Cache extends \Phpcmf\Model {
                     $_cache = require $path.'Config/Cache.php';
                     $_cache && $app_cache[$dir] = $_cache;
                 }
+                // 更新新增菜单
+                \Phpcmf\Service::M('menu')->update_app($dir);
             }
             // 插件缓存
             $apps = [];

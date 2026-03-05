@@ -4,15 +4,15 @@
  */
 
 // PHP版本检测
-$min = '8.1';
-$max = '8.5';
+$min = '8.0';
+$max = '8.6';
 if (version_compare(PHP_VERSION, $min) < 0 || version_compare(PHP_VERSION, $max) > 0) {
     exit("<font color=red>PHP版本要求大于".$min.".0且小于".$max."，当前".PHP_VERSION."不满足运行环境</font>");
 }
 
 define('FRAME_PHP_VERSION', $min);
-define('FRAME_NAME', 'CodeIgniter');
-define('FRAME_VERSION', '4.2');
+define('FRAME_NAME', 'System');
+define('FRAME_VERSION', '4.7');
 
 defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0);        // no errors
 defined('EXIT_ERROR')          || define('EXIT_ERROR', 1);          // generic error

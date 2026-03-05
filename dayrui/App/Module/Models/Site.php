@@ -351,6 +351,7 @@ class Site extends \Phpcmf\Model {
         }
 
         // 执行插件自己的缓存程序
+        $menu = \Phpcmf\Service::M('menu');
         $local = \Phpcmf\Service::Apps();
         $app_cache = [];
         foreach ($local as $dir => $path) {
@@ -358,6 +359,10 @@ class Site extends \Phpcmf\Model {
                 && is_file($path.'Config/Cache.php')) {
                 $_cache = require $path.'Config/Cache.php';
                 $_cache && $app_cache[$dir] = $_cache;
+            }
+            // 更新新增菜单
+            if (method_exists($menu, 'update_app')) {
+                $menu->update_app($dir);
             }
         }
 
@@ -431,6 +436,7 @@ class Site extends \Phpcmf\Model {
         }
 
         // 执行插件自己的缓存程序
+        $menu = \Phpcmf\Service::M('menu');
         $local = \Phpcmf\Service::Apps();
         $app_cache = [];
         foreach ($local as $dir => $path) {
@@ -438,6 +444,10 @@ class Site extends \Phpcmf\Model {
                 && is_file($path.'Config/Cache.php')) {
                 $_cache = require $path.'Config/Cache.php';
                 $_cache && $app_cache[$dir] = $_cache;
+            }
+            // 更新新增菜单
+            if (method_exists($menu, 'update_app')) {
+                $menu->update_app($dir);
             }
         }
 
@@ -452,7 +462,10 @@ class Site extends \Phpcmf\Model {
 
             if ($cache) {
                 foreach ($cache as $m => $namespace) {
-                    \Phpcmf\Service::M($m, $namespace)->cache($t['id']);
+                    $obj = \Phpcmf\Service::M($m, $namespace);
+                    if ($obj && method_exists($obj, 'cache')) {
+                        $obj->cache($t['id']);
+                    }
                 }
             }
 
@@ -463,8 +476,11 @@ class Site extends \Phpcmf\Model {
                     \Phpcmf\Service::C()->init_file($namespace);
                     foreach ($c as $i => $apt) {
                         $class = is_numeric($i) ? $apt : $i;
-                        $apps[] = '['.$namespace.'-'.$class.']';
-                        \Phpcmf\Service::M($class, $namespace)->cache($t['id']);
+                        $obj = \Phpcmf\Service::M($class, $namespace);
+                        if ($obj && method_exists($obj, 'cache')) {
+                            $apps[] = '['.$namespace.'-'.$class.']';
+                            $obj->cache($t['id']);
+                        }
                     }
                 }
             }

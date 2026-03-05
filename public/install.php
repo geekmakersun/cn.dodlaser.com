@@ -1,25 +1,29 @@
 <?php
 
 /**
- * 安装程序
+ * 安装程序（正式上线后可删除本文件）
  */
 
 header('Content-Type: text/html; charset=utf-8');
 
 // 最低支持php版本
-$min = '7.4.0';
+$min = '8.1.0';
 
 !defined('WEBPATH') && define('WEBPATH', dirname(__FILE__).'/');
 if (is_file(WEBPATH.'config/api.php')) {
-    define('CONFIGPATH',WEBPATH.'config/');
+    !defined('CONFIGPATH') && define('CONFIGPATH',WEBPATH.'config/');
     if (is_dir(WEBPATH.'/dayrui/CodeIgniter72/')) {
         $min = '7.2.0';
+    } elseif (is_dir(WEBPATH.'/dayrui/CodeIgniter/')) {
+        $min = '7.4.0';
     }
 } else {
-    define('CONFIGPATH',dirname(dirname(__FILE__)).'/config/');
-	define('WRITEPATH', dirname(dirname(__FILE__)).'/cache/');
+    !defined('CONFIGPATH') && define('CONFIGPATH', dirname(dirname(__FILE__)).'/config/');
+    !defined('WRITEPATH') && define('WRITEPATH', dirname(dirname(__FILE__)).'/cache/');
     if (is_dir(dirname(dirname(__FILE__)).'/CodeIgniter72/')) {
         $min = '7.2.0';
+    } elseif (is_dir(dirname(dirname(__FILE__)).'/CodeIgniter/')) {
+        $min = '7.40';
     }
 }
 if (!defined('WRITEPATH')) {
@@ -34,12 +38,12 @@ if (!defined('WRITEPATH')) {
 
 // 判断环境
 if (version_compare(PHP_VERSION, $min) < 0) {
-    exit("<font color=red>PHP版本建议在".$min."及以上，当前".PHP_VERSION."</font><hr>最低支持PHP7.2环境，需要在这里下载兼容包");
+    exit("<font color=red>PHP版本建议在".$min."及以上，当前".PHP_VERSION."</font>");
 }
 
 $pos = strpos(trim($_SERVER['SCRIPT_NAME'], '/'), '/');
 if ($pos !== false && $pos > 1) {
-    echo "<font color=red>本程序必须在域名根目录中安装</font>";exit;
+    echo "<font color=red>本程序必须在域名根目录中安装</font>，查看手册：https://www.xunruicms.com/doc/741.html";exit;
 }
 
 foreach (array(' ', '[', ']') as $t) {

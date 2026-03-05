@@ -100,8 +100,10 @@ class Exceptions
      */
     public function initialize()
     {
-        set_exception_handler($this->exceptionHandler(...));
-        set_error_handler($this->errorHandler(...));
+        set_exception_handler([$this, 'exceptionHandler']);
+        set_error_handler([$this, 'errorHandler']);
+        //set_exception_handler($this->exceptionHandler(...));
+        //set_error_handler($this->errorHandler(...));
         register_shutdown_function([$this, 'shutdownHandler']);
     }
 

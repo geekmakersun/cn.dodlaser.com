@@ -200,8 +200,8 @@ class Forge extends BaseForge
         if ($processedField['type'] === 'VARCHAR2' && str_starts_with($processedField['length'], "('")) {
             $constraint = ' CHECK(' . $this->db->escapeIdentifiers($processedField['name'])
                 . ' IN ' . $processedField['length'] . ')';
-
-            $processedField['length'] = '(' . max(array_map(mb_strlen(...), explode("','", mb_substr($processedField['length'], 2, -2)))) . ')' . $constraint;
+            $processedField['length'] = '(' . max(array_map('mb_strlen', explode("','", mb_substr($processedField['length'], 2, -2)))) . ')' . $constraint;
+            //$processedField['length'] = '(' . max(array_map(mb_strlen(...), explode("','", mb_substr($processedField['length'], 2, -2)))) . ')' . $constraint;
         } elseif (isset($this->primaryKeys['fields']) && count($this->primaryKeys['fields']) === 1 && $processedField['name'] === $this->primaryKeys['fields'][0]) {
             $processedField['unique'] = '';
         }

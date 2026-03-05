@@ -58,10 +58,8 @@ Page Header
     float: left;
     display: block;
     overflow: hidden;
-    width: 185px;
-    height: 70px;
-    padding-left: 20px;
-    padding-right: 20px; }
+    width: 205px !important;
+}
 .page-header.navbar .page-logo > .logo-image,
 .page-header.navbar .page-logo > a {
     display: block;
@@ -73,17 +71,17 @@ Page Header
     padding-left: 20px;
     padding-top: 12px; }
 .page-header.navbar .page-top {
-    height: 70px;
+    height: 60px;
     background: #BAC0B6; }
 .page-header.navbar .search-form {
     margin-left: 10px;
     display: inline-block;
-    width: 70px;
+    width: 60px;
     position: relative;
     float: left !important;
     transition: all 0.6s; }
 .page-header.navbar .search-form .input-group .form-control {
-    height: 70px;
+    height: 60px;
     border: 0;
     background: transparent !important;
     font-size: 14px;
@@ -93,11 +91,11 @@ Page Header
 .page-header.navbar .search-form .input-group .form-control:hover {
     cursor: pointer; }
 .page-header.navbar .search-form .input-group .input-group-btn {
-    height: 70px; }
+    height: 60px; }
 .page-header.navbar .search-form .input-group .input-group-btn .btn.submit {
     margin-left: -24px;
     padding: 0;
-    width: 70px;
+    width: 60px;
     background: none;
     margin-top: 4px;
     display: block; }
@@ -133,7 +131,7 @@ Page Header
 .page-header.navbar .menu-toggler.responsive-toggler {
     display: none;
     float: right;
-    margin: 24px 14px 0 6px;
+    margin: 0px 14px 0 6px;
     background-image: url(../img/sidebar-toggler-inverse.png); }
 .page-header.navbar .page-actions {
     margin: 17px 0 15px 15px;
@@ -168,11 +166,11 @@ Page Header
 .page-header.navbar .top-menu .navbar-nav > li.dropdown {
     margin: 0px;
     padding: 0px;
-    height: 70px;
+    height: 60px;
     display: inline-block; }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown > .dropdown-toggle {
     margin: 0px;
-    height: 70px;
+    height: 60px;
     padding: 28px 16px 19px 16px; }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown > .dropdown-toggle:last-child {
     padding-right: 0; }
@@ -624,7 +622,7 @@ Page container
 .page-container:after {
     clear: both; }
 .page-header-fixed .page-container {
-    margin-top: 70px; }
+    margin-top: 60px; }
 .page-footer-fixed.page-footer-fixed-mobile .page-container {
     margin-bottom: 20px !important; }
 
@@ -1931,6 +1929,7 @@ Page Loading
 .page-header.navbar .page-logo {
     background: #2890ff; }
 .page-header.navbar .page-top {
+    width: 100%;
     box-shadow: 0px 1px 10px 0px rgba(50, 50, 50, 0.2);
     background: #ffffff; }
 .page-header.navbar .top-menu .navbar-nav {
@@ -2230,11 +2229,7 @@ Page Loading
 ****/
 
 
-/****
-    Boby
-    ****/
-body {
-    background-color: #343e4d; }
+
 
 body.page-boxed {
     background-color: #C0C6C2; }

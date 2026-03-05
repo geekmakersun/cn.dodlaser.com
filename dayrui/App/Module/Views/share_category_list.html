@@ -348,7 +348,87 @@
             {/if}
     });
 </script>
-<style>.dr_total{ font-size: 10px; color:#ccc} </style>
+
+
+{if \Phpcmf\Service::IS_PC_USER()}
+<style>
+/* 横向滚动时固定最后一列（操作列），方便操作 */
+.table-scrollable.table-fixed-last-col .table thead th:last-child,
+.table-scrollable.table-fixed-last-col .table tbody td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    background: #fff;
+    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.08);
+    min-width: 320px;
+    vertical-align: middle;
+}
+/* 操作列内容用 div 包裹，实现可靠横向滚动 */
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-inner {
+    display: inline-block;
+    white-space: nowrap;
+}
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-inner .btn {
+    margin-right: 4px;
+}
+
+/* 操作列滚动条 - 内容过多时悬停才显示 */
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-scroll::-webkit-scrollbar {
+    height: 0;
+}
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-scroll:hover::-webkit-scrollbar,
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-scroll:focus-within::-webkit-scrollbar {
+    height: 4px;
+}
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-scroll::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-scroll::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+/* 表格整体横向滚动条 - 内容过多时悬停才显示 */
+.table-scrollable.table-fixed-last-col::-webkit-scrollbar {
+    height: 0;
+}
+.table-scrollable.table-fixed-last-col:hover::-webkit-scrollbar,
+.table-scrollable.table-fixed-last-col:focus-within::-webkit-scrollbar {
+    height: 6px;
+}
+.table-scrollable.table-fixed-last-col::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+.table-scrollable.table-fixed-last-col::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+.table-scrollable.table-fixed-last-col::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+/* Firefox 滚动条细窄样式 */
+.table-scrollable.table-fixed-last-col .table tbody td:last-child .op-cell-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+}
+.table-scrollable.table-fixed-last-col {
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+}
+</style>
+
+{/if}
 <div class="note note-danger">
     <p>
         {template "category_btn.html"}
@@ -389,8 +469,9 @@
 
 
             </div>
-        </div>        <div class="clearfix"></div>
-        <div class="table-scrollable table-clearfix">
+        </div>        
+        <div class="clearfix"></div>
+        <div class="table-scrollable table-clearfix table-fixed-last-col">
             <table class="table table-noborder table-striped table-bordered table-hover table-checkable dataTable">
                 <thead>
                 {$cat_head}

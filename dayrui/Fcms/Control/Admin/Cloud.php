@@ -316,7 +316,7 @@ return [
         \Phpcmf\Service::V()->display('cloud_login_ajax.html');exit;
     }
 
-    // 下载程序
+    // 下载程序 从服务端接收
     function down_file() {
         \Phpcmf\Service::V()->assign([
             'ls' => intval($_GET['ls']),
@@ -729,7 +729,7 @@ return [
         $this->_json(1, 'ok', $data['data']);
     }
 
-    // 开始下载脚本
+    // 开始下载脚本 从服务端请求下载打包文件
     public function update_file_down() {
 
         $id = dr_safe_replace($_GET['id']);

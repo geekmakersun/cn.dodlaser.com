@@ -416,7 +416,7 @@ function dr_is_favorite($dir, $id, $uid = 0) {
  */
 if (!function_exists('dr_show_hits')) {
     function dr_show_hits($id, $dom = "", $dir = 'MOD_DIR') {
-        if (!dr_is_app('html')) {
+        if (!dr_is_app('chtml')) {
             // 动态统计阅读量
             $obj = \Phpcmf\Service::C();
             if ($obj->content_model) {

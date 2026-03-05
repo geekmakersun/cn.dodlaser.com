@@ -207,7 +207,12 @@ class Linkage extends \Phpcmf\Common {
             // 失败了
             exit(dr_array2string($rt));
         }
-
+        // 验证json格式内容
+        $data = dr_string2array(file_get_contents($file));
+        if (!is_array($data)) {
+            unlink($file);
+            $this->_json(0, dr_lang('导入信息验证失败'));
+        }
         // 上传成功了
         exit(dr_array2string($rt));
     }

@@ -81,6 +81,18 @@
             </ul>
         </div>
 
+        <style>
+        .table-fc-upload .fc-upload-item .color-demo { position: relative; }
+        .table-fc-upload .fc-upload-del {
+            position: absolute; right: 4px; top: 4px; z-index: 10;
+            width: 24px; height: 24px; line-height: 24px; text-align: center;
+            background: rgba(0,0,0,.5); color: #fff; border-radius: 4px;
+            opacity: 0; transition: opacity .2s;
+            display: block; text-decoration: none;
+        }
+        .table-fc-upload .fc-upload-item:hover .fc-upload-del { opacity: 1; }
+        .table-fc-upload .fc-upload-del:hover { background: #d9534f; color: #fff; }
+        </style>
         <div class="portlet-body table-finecms-upload">
 
             {if $unused && $pp==0}
@@ -193,9 +205,29 @@
         }
     }
    $(function (){
-        $(".rs-load").each(function (){
-            $(this).attr("src", $(this).attr("rs-src"))
-        });
+        // 懒加载缩略图：仅当图片进入视口时再加载，避免文件过多时同时请求导致卡顿
+        var rsLoad = document.querySelectorAll(".rs-load");
+        if (rsLoad.length && "IntersectionObserver" in window) {
+            var io = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var img = entry.target;
+                        var src = img.getAttribute("rs-src");
+                        if (src) {
+                            img.src = src;
+                            img.removeAttribute("rs-src");
+                            img.classList.remove("rs-load");
+                            io.unobserve(img);
+                        }
+                    }
+                });
+            }, { rootMargin: "50px", threshold: 0.01 });
+            rsLoad.forEach(function(img) { io.observe(img); });
+        } else {
+            $(".rs-load").each(function() {
+                $(this).attr("src", $(this).attr("rs-src"));
+            });
+        }
     });
 </script>
 

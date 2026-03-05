@@ -724,7 +724,7 @@ class Api {
             closedir($fp);
         }
 
-        return $file_data ? array_merge($dir_data, $file_data) : $dir_data;
+        return $file_data ? dr_array22array($dir_data, $file_data) : $dir_data;
     }
 
 

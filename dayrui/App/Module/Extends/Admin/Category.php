@@ -178,7 +178,7 @@ class Category extends \Phpcmf\Table {
             $list .= "<td style='text-align:center'>\$id</td>";
         }
 
-        $head.= '<th> '.dr_lang('栏目信息').' </th>';
+        $head.= '<th width="200"> '.dr_lang('栏目信息').' </th>';
         $list.= "<td>\$spacer<a data-container='body' data-placement='right' data-original-title='\$pdirname\$dirname' class='tooltips' target='_blank' href='\$url'>\$name</a> \$parent \$ctotal</td>";
 
         if ($this->is_scategory && dr_in_array('tid', $this->cat_config[$this->module['dirname']]['sys_field'])) {
@@ -202,13 +202,13 @@ class Category extends \Phpcmf\Table {
             foreach ($this->cat_config[$this->module['dirname']]['list_field'] as $i => $t) {
                 if ($t['use']) {
                     $head.= '<th '.($t['width'] ? ' width="'.$t['width'].'"' : '').' '.($t['center'] ? ' class=\"table-center\" style="text-align:center"' : '').'>'.dr_lang($t['name']).'</th>';
-                    $list.= '<td '.($t['center'] ? ' class=\"table-center\" style="text-align:center"' : '').'>$'.$i.'_html</td>';
+                    $list.= '<td '.($t['center'] ? ' class="table-center" style="text-align:center"' : '').'>$'.$i.'_html</td>';
                 }
             }
         }
 
         $head.= '<th>'.dr_lang('操作').'</th>';
-        $list.= "<td>\$option</td>";
+        $list.= "<td><div class=\"op-cell-scroll\"><span class=\"op-cell-inner\">\$option</span></div></td>";
 
         $head.= '</tr>'.PHP_EOL;
         $list.= "</tr>".PHP_EOL;
@@ -994,7 +994,7 @@ class Category extends \Phpcmf\Table {
             foreach ($files as $file) {
                 $key = md5(trim(str_replace(['/', '\\'], '*', str_replace($rpath, '', $path.$file)), '*'));
                 $name = isset($data[$key]) && $data[$key] ? $data[$key].'（'.$file.'）' : $file;
-                $html.= '<li><a href="javascript:dr_select_tpl(\''.$file.'\', \'{name}\');"> '.$name.' </a></li>';
+                $html.= '<li><a href="javascript:dr_select_tpl(\''.$file.'\', \'[name]\');"> '.$name.' </a></li>';
             }
         }
 
@@ -1006,7 +1006,7 @@ class Category extends \Phpcmf\Table {
                 foreach ($files as $file) {
                     $key = md5(trim(str_replace(['/', '\\'], '*', str_replace($rpath, '', $path.$file)), '*'));
                     $name = isset($data[$key]) && $data[$key] ? $data[$key].'（'.$mid.'/'.$file.'）' : $mid.'/'.$file;
-                    $html.= '<li><a href="javascript:dr_select_tpl(\''.$file.'\', \'{name}\');"> '.$name.' </a></li>';
+                    $html.= '<li><a href="javascript:dr_select_tpl(\''.$file.'\', \'[name]\');"> '.$name.' </a></li>';
                 }
             }
         }

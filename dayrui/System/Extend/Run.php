@@ -135,8 +135,9 @@ class Run
                     // 验证通过
                 } else {
                     // 验证失败
-                    SYS_DEBUG && log_message('debug', 'CSRF验证拦截（系统码'.$value.' / 提交码'.$post.'）');
-                    dr_exit_msg(0, 'CSRF验证拦截', '', [
+                    $msg = SYS_DEBUG ? 'CSRF验证拦截（系统码'.$value.' / 提交码'.$post.'）' : 'CSRF验证拦截';
+                    SYS_DEBUG && log_message('debug', $msg);
+                    dr_exit_msg(0, $msg, '', [
                         'name' => $token,
                         'value' => $value
                     ]);

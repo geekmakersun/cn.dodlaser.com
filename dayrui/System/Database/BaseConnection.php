@@ -1361,7 +1361,8 @@ abstract class BaseConnection implements ConnectionInterface
     public function escape($str)
     {
         if (is_array($str)) {
-            return array_map($this->escape(...), $str);
+            return array_map([$this, 'escape'], $str);
+            //return array_map($this->escape(...), $str);
         }
 
         if ($str instanceof Stringable) {
@@ -1559,7 +1560,8 @@ abstract class BaseConnection implements ConnectionInterface
         if (! empty($this->dataCache['table_names'])) {
             $key = array_search(
                 strtolower($tableName),
-                array_map(strtolower(...), $this->dataCache['table_names']),
+                array_map('strtolower', $this->dataCache['table_names']),
+                //array_map(strtolower(...), $this->dataCache['table_names']),
                 true,
             );
 

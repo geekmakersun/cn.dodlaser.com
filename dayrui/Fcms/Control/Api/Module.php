@@ -42,7 +42,7 @@ class Module extends \Phpcmf\Common {
      */
     public function hits() {
 
-        if (!dr_is_app('html')) {
+        if (!dr_is_app('chtml')) {
             $this->goto_404_page('禁止访问');
         }
 

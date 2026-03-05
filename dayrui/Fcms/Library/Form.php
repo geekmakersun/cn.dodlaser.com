@@ -198,7 +198,7 @@ class Form {
                     && isset($field['setting']['option']['field_ld'][$value])
                     && isset($field['setting']['option']['field_ld'][$value]['hide'])
                 ) {
-                    $radio_link_required = array_merge($field['setting']['option']['field_ld'][$value]['hide'], $radio_link_required);
+                    $radio_link_required = dr_array2array($field['setting']['option']['field_ld'][$value]['hide'], $radio_link_required);
                 }
                 // 验证必填字段
                 if ($obj->is_validate && $validate['required'] && !dr_in_array($name, $radio_link_required)) {
@@ -311,8 +311,8 @@ class Form {
                         \Phpcmf\Service::L('Field')->data[$field['ismain']][$field['fieldname']],
                         $old[$field['fieldname']]
                     );
-                    $attach['add'] = $add_id ? array_merge($add_id, $attach['add']) : $attach['add'];
-                    $attach['del'] = $del_id ? array_merge($del_id, $attach['del']) : $attach['del'];
+                    $attach['add'] = $add_id ? dr_array2array($add_id, $attach['add']) : $attach['add'];
+                    $attach['del'] = $del_id ? dr_array2array($del_id, $attach['del']) : $attach['del'];
                 }
             }
             // 格式化后的数据

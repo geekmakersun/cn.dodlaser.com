@@ -47,8 +47,8 @@
                     <td>
                         {if $t.is_ctable}
                         <label><a class="btn btn-xs red"  href="javascript:;"> {dr_lang('已开启')} </a></label>
-                        <label><a class="btn btn-xs blue"  onclick="dr_open_tips({$t.id})" href="javascript:;"> <i class="fa fa-database"></i> {dr_lang('数据同步到分表')} </a></label>
-                        <label><a class="btn btn-xs blue"  onclick="dr_close_tips({$t.id})" href="javascript:;"> <i class="fa fa-database"></i> {dr_lang('分表复制到主表')} </a></label>
+                        <label><a class="btn btn-xs blue"  onclick="dr_open_tips({$t.id})" href="javascript:;"> <i class="fa fa-database"></i> {dr_lang('主表数据移动到分表')} </a></label>
+                        <label><a class="btn btn-xs yellow"  onclick="dr_close_tips({$t.id})" href="javascript:;"> <i class="fa fa-database"></i> {dr_lang('分表数据复制到主表')} </a></label>
                         <label><a class="btn btn-xs red"  onclick="dr_field_tips({$t.id})" href="javascript:;"> <i class="fa fa-database"></i> {dr_lang('字段同步到分表')} </a></label>
                         <label><a class="btn btn-xs green"  href="{dr_url($t.mid.'/home/index', ['catid'=>$t.id])}"> <i class="fa fa-table"></i> {dr_lang('查看数据')} </a></label>
                         {else}
@@ -65,7 +65,7 @@
                     }
                     function dr_open_tips(id){
                         layer.confirm(
-                            "{dr_lang('操作之前，请备份好全站数据库，以免出现数据丢失的情况')}",
+                            "{dr_lang('将主表数据移动到分表，操作之前，请备份好全站数据库，以免出现数据丢失的情况')}",
                             {
                                 icon: 3,
                                 shade: 0,
@@ -78,7 +78,7 @@
                     }
                     function dr_close_tips(id){
                         layer.confirm(
-                            "{dr_lang('操作之前，请备份好全站数据库，以免出现数据丢失的情况')}",
+                            "{dr_lang('将分表数据复制到主表，操作之前，请备份好全站数据库，以免出现数据丢失的情况')}",
                             {
                                 icon: 3,
                                 shade: 0,

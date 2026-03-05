@@ -235,7 +235,7 @@ class Router {
                 break;
         }
 
-        $query && $uri = array_merge($uri, $query);
+        $query && $uri = dr_array22array($uri, $query);
 
         return $self . '?' . http_build_query($uri);
     }
@@ -280,7 +280,7 @@ class Router {
                 break;
         }
 
-        $query && $uri = array_merge($uri, $query);
+        $query && $uri = dr_array22array($uri, $query);
 
         // 未绑定域名的情况下
         return (IS_CLIENT ? CLIENT_URL : (\Phpcmf\Service::IS_MOBILE_TPL() ? SITE_MURL : SITE_URL)).'index.php?' . http_build_query($uri);

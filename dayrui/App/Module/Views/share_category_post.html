@@ -458,12 +458,15 @@ function dr_post_submit(url, form, time, go) {
                             <div class="col-md-9">
                                 <div class="input-group  input-large">
                                     <input class="form-control dr_list_tpl" type="text" value="{htmlspecialchars((string)$data['setting']['template']['list'])}" name="system[setting][template][list]">
+                                    {php $stpl = dr_rp($select_tpl, '[name]', 'dr_list_tpl');}
+                                    {if $stpl}
                                     <div class="input-group-btn">
                                         <button type="button" class="btn green dropdown-toggle" data-toggle="dropdown">{dr_lang('选择')}
                                             <i class="fa fa-angle-down"></i>
                                         </button>
-                                        {dr_rp($select_tpl, '{name}', 'dr_list_tpl')}
+                                        {$stpl}
                                     </div>
+                                    {/if}
                                 </div>
                                 <span class="help-block">{dr_lang('模块栏目列表默认list.html')}</span>
                             </div>
@@ -474,12 +477,15 @@ function dr_post_submit(url, form, time, go) {
 
                                 <div class="input-group  input-large">
                                     <input class="form-control dr_category_tpl" type="text" value="{htmlspecialchars((string)$data['setting']['template']['category'])}" name="system[setting][template][category]">
+                                    {php $stpl = dr_rp($select_tpl, '[name]', 'dr_category_tpl');}
+                                    {if $stpl}
                                     <div class="input-group-btn">
                                         <button type="button" class="btn green dropdown-toggle" data-toggle="dropdown">{dr_lang('选择')}
                                             <i class="fa fa-angle-down"></i>
                                         </button>
-                                        {dr_rp($select_tpl, '{name}', 'dr_category_tpl')}
+                                        {$stpl}
                                     </div>
+                                    {/if}
                                 </div>
                                 <span class="help-block">{dr_lang('默认category.html')}</span>
                             </div>
@@ -490,12 +496,15 @@ function dr_post_submit(url, form, time, go) {
                             <div class="col-md-9">
                                 <div class="input-group  input-large">
                                     <input class="form-control dr_search_tpl" type="text" value="{php echo $data['setting']['template']['search'] ? htmlspecialchars($data['setting']['template']['search']) : 'search.html'}" name="system[setting][template][search]">
+                                    {php $stpl = dr_rp($select_tpl, '[name]', 'dr_search_tpl');}
+                                    {if $stpl}
                                     <div class="input-group-btn">
                                         <button type="button" class="btn green dropdown-toggle" data-toggle="dropdown">{dr_lang('选择')}
                                             <i class="fa fa-angle-down"></i>
                                         </button>
-                                        {dr_rp($select_tpl, '{name}', 'dr_search_tpl')}
+                                        {$stpl}
                                     </div>
+                                    {/if}
                                 </div>
                                     <span class="help-block">{dr_lang('默认search.html')}</span>
                             </div>
@@ -506,12 +515,15 @@ function dr_post_submit(url, form, time, go) {
 
                                 <div class="input-group  input-large">
                                     <input class="form-control dr_show_tpl" type="text" value="{htmlspecialchars((string)$data['setting']['template']['show'])}" name="system[setting][template][show]">
+                                    {php $stpl = dr_rp($select_tpl, '[name]', 'dr_show_tpl');}
+                                    {if $stpl}
                                     <div class="input-group-btn">
                                         <button type="button" class="btn green dropdown-toggle" data-toggle="dropdown">{dr_lang('选择')}
                                             <i class="fa fa-angle-down"></i>
                                         </button>
-                                        {dr_rp($select_tpl, '{name}', 'dr_show_tpl')}
+                                        {$stpl}
                                     </div>
+                                    {/if}
                                 </div>
                                     <span class="help-block">{dr_lang('默认show.html')}</span>
                             </div>

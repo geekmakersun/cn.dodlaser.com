@@ -54,10 +54,15 @@ class FileHandler extends BaseHandler
      */
     public function __construct(Cache $config)
     {
+        /*
         $options = [
             ...['storePath' => WRITEPATH . 'cache', 'mode' => 0640],
             ...$config->file,
-        ];
+        ];*/
+        $options = array_merge(
+            ['storePath' => WRITEPATH . 'cache', 'mode' => 0640],
+            $config->file ?? []
+        );
 
         $this->path = $options['storePath'] !== '' ? $options['storePath'] : WRITEPATH . 'cache';
         $this->path = rtrim($this->path, '\\/') . '/';

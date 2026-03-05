@@ -126,10 +126,11 @@ abstract class Common extends \Frame\Controller {
 
         // 项目站点不存在
         if (!isset($this->site_info[SITE_ID]) || !$this->site_info[SITE_ID]) {
+            // 这里不能用语言函数，因为还没有被初始化语言
             if (IS_DEV) {
-                dr_show_error(dr_lang('项目【%s】配置文件不存在，请检查cache/config/site.php文件数据是否完整', SITE_ID));
+                dr_show_error('项目【'.SITE_ID.'】配置文件不存在，请检查cache/config/site.php文件数据是否完整');
             } else {
-                dr_show_error(dr_lang('项目配置文件不存在'));
+                dr_show_error('项目配置文件不存在');
             }
         }
 
@@ -951,7 +952,7 @@ abstract class Common extends \Frame\Controller {
             }
             if ($ck) {
                 $_clink = require $path.'Config/C'.$pos.$endfix.'.php';
-                if ($_clink) {
+                if ($_clink && is_array($_clink)) {
                     if (is_file($path.'Models/Auth'.$endfix.'.php')) {
                         $obj = \Phpcmf\Service::M('auth'.$endfix, $dir);
                         foreach ($_clink as $k => $v) {
@@ -975,22 +976,23 @@ abstract class Common extends \Frame\Controller {
                             // 对象存储不返回出去了
                             $_clink[$k]['model'] = NULL;
                         }
-                        // 权限验证
-                        if ($pos == 'link' && method_exists($obj, 'is_link_auth') && $obj->is_link_auth(APP_DIR)) {
-                            $data = array_merge($data, $_clink);
-                        } elseif ($pos == 'bottom' && method_exists($obj, 'is_bottom_auth') && $obj->is_bottom_auth(APP_DIR)) {
-                            $data = array_merge($data , $_clink) ;
-                        } else {
-                            //CI_DEBUG && log_message('debug', 'Auth类（'.$path.'Models/Auth'.$endfix.'.php'.'）没有定义is_'.$pos.'_auth或者is_'.$pos.'_auth验证失败');
+                        if ($_clink) {
+                            // 权限验证
+                            if ($pos == 'link' && method_exists($obj, 'is_link_auth') && $obj->is_link_auth(APP_DIR)) {
+                                $data = dr_array2array($data, $_clink);
+                            } elseif ($pos == 'bottom' && method_exists($obj, 'is_bottom_auth') && $obj->is_bottom_auth(APP_DIR)) {
+                                $data = dr_array2array($data , $_clink) ;
+                            } else {
+                                //CI_DEBUG && log_message('debug', 'Auth类（'.$path.'Models/Auth'.$endfix.'.php'.'）没有定义is_'.$pos.'_auth或者is_'.$pos.'_auth验证失败');
+                            }
                         }
                     } else {
-                        $data = array_merge($data , $_clink) ;
+                        $data = dr_array2array($data , $_clink) ;
                        // CI_DEBUG && log_message('debug', '配置文件（'.$path.'Config/C'.$pos.$endfix.'.php'.'）没有定义权限验证类（'.$path.'Models/Auth'.$endfix.'.php'.'）');
                     }
                 }
             }
         }
-
         if ($data) {
             foreach ($data as $i => $t) {
                 $data[$i]['displayorder'] = $i + ($t['displayorder'] ? (int)$t['displayorder'] : 0);

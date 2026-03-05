@@ -26,7 +26,7 @@ class Sync extends \Phpcmf\Model {
                         if (!$this->sync[$tid][$dir]) {
                             $this->sync[$tid][$dir] = $t;
                         } else {
-                            $this->sync[$tid][$dir] = array_merge($this->sync[$tid][$dir], $t);
+                            $this->sync[$tid][$dir] = dr_array2array($this->sync[$tid][$dir], $t);
                         }
                     }
                 }

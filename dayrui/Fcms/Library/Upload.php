@@ -473,32 +473,68 @@ class Upload {
         return [$file_path, $config, $diy];
     }
 
-    /**
-     * 获取远程附件扩展名
+   /**
+     * 获取远程附件扩展名（安全版，防止 getimagesize 利用 phar:// 反序列化）
      */
     public function get_image_ext($url) {
 
+        $url = trim($url);
+
+        // 长度过长直接拒绝
         if (strlen($url) > 300) {
             return '';
         }
 
+        // 解析协议，限制只允许 http / https
+        $scheme = parse_url($url, PHP_URL_SCHEME);
+        if ($scheme) {
+            $scheme = strtolower($scheme);
+        }
+
+        // 拦截 phar://、php://、data://、zip://、expect:// 等危险包装器
+        $danger_schemes = ['phar', 'php', 'data', 'zip', 'expect', 'file'];
+        if ($scheme && in_array($scheme, $danger_schemes, true)) {
+            CI_DEBUG && log_message('debug', '非法图片协议：' . $scheme . ' => ' . $url);
+            return '';
+        }
+
+        // 只允许 http/https（你也可以根据项目需要允许相对路径）
+        if ($scheme && !in_array($scheme, ['http', 'https'], true)) {
+            return '';
+        }
+
+        // 既不是 http/https 且又不是以 / 开头的相对路径，则直接拒绝
+        if (!$scheme && strpos($url, '/') !== 0) {
+            return '';
+        }
+
         $arr = ['gif', 'jpg', 'jpeg', 'png', 'webp'];
+
+        // 先从后缀判断
         $ext = str_replace('.', '', trim(strtolower(strrchr($url, '.')), '.'));
-        if ($ext && in_array($ext, $arr)) {
+        if ($ext && in_array($ext, $arr, true)) {
             return $ext; // 满足扩展名
         } elseif ($ext && strlen($ext) < 4) {
             //CI_DEBUG && log_message('error', '此路径不是远程图片：'.$url);
             return ''; // 表示不是图片扩展名了
         }
 
+        // URL 中模糊匹配常见扩展名
         foreach ($arr as $t) {
             if (stripos($url, $t) !== false) {
                 return $t;
             }
         }
 
-        $rt = getimagesize($url);
-        if ($rt && $rt['mime']) {
+        // 到这里再尝试 getimagesize
+        // 再次简单拦截 phar://，防止上面 parse_url 被绕过（例如部分畸形 URL）
+        if (stripos($url, 'phar://') === 0) {
+            return '';
+        }
+
+        // 避免抛警告，用 @ 抑制错误（可根据需要保留日志）
+        $rt = @getimagesize($url);
+        if ($rt && !empty($rt['mime'])) {
             foreach ($arr as $t) {
                 if (stripos($rt['mime'], $t) !== false) {
                     return $t;
@@ -510,4 +546,5 @@ class Upload {
 
         return '';
     }
+
 }

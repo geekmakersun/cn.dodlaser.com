@@ -448,6 +448,7 @@ class Table extends \Phpcmf\Common {
             }
             // 格式化数据
             $post = $this->_Format_Data($id, $post, $id ? $data : []);
+  
             // 保存数据
             $rt = $this->_Save($id, $post, $id ? $data : []);
             if (!$rt['code']) {
@@ -505,6 +506,7 @@ class Table extends \Phpcmf\Common {
 
         // 是否包在data里面
         //$is_data && $data['data'] = $mydata;
+
 
         // 获取自定义字段表单控件
         list($my_field, $sys_field, $diy_field, $cat_field) = $this->_field_group($mydata);

@@ -692,8 +692,9 @@ class MigrationRunner
             ->orderBy('batch', 'asc')
             ->get()
             ->getResultArray();
-
-        return array_map(intval(...), array_column($batches, 'batch'));
+            
+        return array_map('intval', array_column($batches, 'batch'));
+        //return array_map(intval(...), array_column($batches, 'batch'));
     }
 
     /**

@@ -479,7 +479,7 @@ class Field extends \Phpcmf\Model {
         } elseif (function_exists('myfield_sql_'.$this->func)) {
             $rt = call_user_func_array('myfield_sql_'.$this->func, array($sql, $ismain, $this->data));
             if ($rt) {
-                $this->_table_field = array_merge($this->_table_field, $rt);
+                $this->_table_field = dr_array2array($this->_table_field, $rt);
             }
         }
     }

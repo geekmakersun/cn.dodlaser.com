@@ -69,12 +69,13 @@ class Api extends \Phpcmf\Common
                     }
                 }
             }
+        } else {
+            $ctid = -1;
         }
 
         if (!$page) {
             // 计算数量
-            $total = \Phpcmf\Service::M()->db->table($this->content_model->mytable)->countAllResults();
-            if (!$total) {
+            if ($ctid > -1) {
                 if ($cats) {
                     $table = dr_module_ctable($table, $cats[$ctid]);
                     $total = \Phpcmf\Service::M()->db->table($table)->countAllResults();
@@ -82,10 +83,10 @@ class Api extends \Phpcmf\Common
                     $this->_html_msg(0, dr_lang('无可用内容更新'));
                 }
             } else {
-                $ctid = -1;
+                $total = \Phpcmf\Service::M()->db->table($table)->countAllResults();
             }
             $url = dr_url('module/api/'.\Phpcmf\Service::L('Router')->method, ['mid' => $mid, 'ctid' => $ctid]);
-            $this->_html_msg(1, dr_lang('正在执行中...'), $url.'&total='.$total.'&page='.($page+1));
+            $this->_html_msg(1, dr_lang('初始化中...'), $url.'&total='.$total.'&page='.($page+1));
         }
 
 
@@ -99,7 +100,7 @@ class Api extends \Phpcmf\Common
         if ($page > $tpage) {
             if ($cats && isset($cats[$ctid+1])) {
                 $url = dr_url('module/api/'.\Phpcmf\Service::L('Router')->method, ['mid' => $mid, 'ctid' => $ctid+1]);
-                $this->_html_msg(1, dr_lang('正在执行中...'), $url.'&total=0&page=0');
+                $this->_html_msg(1, dr_lang('即将更新栏目分表...'), $url.'&total=0&page=0');
             }
             \Phpcmf\Service::M('cache')->update_data_cache();
             $this->_html_msg(1, dr_lang('更新完成'));
@@ -133,8 +134,8 @@ class Api extends \Phpcmf\Common
         }
         $update && \Phpcmf\Service::M()->table($table)->update_batch($update);
 
-        $this->_html_msg( 1, dr_lang('%s正在执行中【%s】...', $cname, "$tpage/$page"),
-            dr_url('module/api/'.\Phpcmf\Service::L('Router')->method, ['mid' => $mid, 'total' => $total ,'ctid' => $ctid, 'page' => $page + 1])
+        $this->_html_msg(1, dr_lang('%s正在执行中【%s】...', $cname, "$tpage/$page"),
+            dr_url('module/api/'.\Phpcmf\Service::L('Router')->method, ['mid' => $mid, 'total' => $total ,'ctid' => $ctid, 'page' => $page + 1]),
         );
     }
 

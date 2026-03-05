@@ -168,8 +168,8 @@ class Security {
 
         if ($is_image) {
             // 严格的过滤
-            $this->naughty_tags = array_merge($this->naughty_tags, array('iframe', 'video', 'embed', 'style'));
-            $this->evil_attributes = array_merge($this->evil_attributes, array('style'));
+            $this->naughty_tags = dr_array2array($this->naughty_tags, array('iframe', 'video', 'embed', 'style'));
+            $this->evil_attributes = dr_array2array($this->evil_attributes, array('style'));
             // 不进行二次编码的xss过滤
             $str = preg_replace_callback("/[^a-z0-9>]+[a-z0-9]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
             $str = preg_replace_callback('/<\w+.*/si', array($this, '_decode_entity'), $str);

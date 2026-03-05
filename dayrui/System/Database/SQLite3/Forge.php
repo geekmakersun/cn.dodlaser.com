@@ -101,7 +101,7 @@ class Forge extends BaseForge
         }
 
         if (! empty($this->db->dataCache['db_names'])) {
-            $key = array_search(strtolower($dbName), array_map(strtolower(...), $this->db->dataCache['db_names']), true);
+            $key = array_search(strtolower($dbName), array_map('strtolower', $this->db->dataCache['db_names']), true);
             if ($key !== false) {
                 unset($this->db->dataCache['db_names'][$key]);
             }
@@ -117,7 +117,8 @@ class Forge extends BaseForge
      */
     public function dropColumn(string $table, $columnNames): bool
     {
-        $columns = is_array($columnNames) ? $columnNames : array_map(trim(...), explode(',', $columnNames));
+        //$columns = is_array($columnNames) ? $columnNames : array_map(trim(...), explode(',', $columnNames));
+        $columns = is_array($columnNames) ? $columnNames : array_map('trim', explode(',', $columnNames));
         $result  = (new Table($this->db, $this))
             ->fromTable($this->db->DBPrefix . $table)
             ->dropColumn($columns)
